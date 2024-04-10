@@ -1,0 +1,75 @@
+-- Ejercicio 5
+
+
+* Item a 
+
+Esta función agarra un número Real. Si ese número es el cero, devuelve 1. Si ese número es
+otro, devuelve 0.
+ Especificación:
+
+ problema f1 (n:R) : R {
+    requiere : {True}
+    asegura : {n = 0 --> res = 1}
+    asegura : {n = algún R que no sea el cero --> res = 0}
+ }
+
+* Item b
+
+Esta función agarra un número Real. Si ese número es el 1, devuelve 15. Si ese número es 
+-1, devuelve -15.
+ Especificación:
+
+ problema f2 (n:R) : R {
+    requiere : {n = 1 V n = -1}
+    asegura : {n = 1 --> res = 15}
+    asegura : {n = -1 --> res = -15} 
+ } 
+
+* Item c 
+
+Esta función agarra un número Real. Si ese número es menor/igual a 9, devuelve 7. Sino, verifica
+que ese número sea mayor/igual a 3 y devuelve 5.
+ Especificación:
+
+ problema f3 (n:R) : R {
+    requiere : {True}
+    asegura : {n es menor/igual a 9 --> res = 7}
+    asegura : {n es mayor a 9 --> res = 5} 
+ }  
+ 
+* Item d 
+
+Esta función recibe dos números Reales, devuelve el promedio de ambos (hace la cuenta de
+promedio y devuelve el resultado).
+ Especificación:
+
+ problema f4 (n:R , k:R) : R {
+    requiere : {True}
+    asegura : {res = (n + k)/2}
+ }
+
+* Item e 
+
+Esta función recibe una dupla de Reales (ambas componentes), devuelve el promedio de ambas
+componentes (hace la cuenta de promedio y devuelve el resultado).
+ Especificación:
+
+ problema f5 (t:(R,R)) : R {
+    requiere : {True} 
+    asegura : {res = (n + k)/2 donde t = (n,k)}
+ }
+
+* Item f 
+
+Esta función recibe un número Real y un Entero. Del número Real se queda con la Parte Entera,
+la compara contra el Entero y decide si son iguales.
+ Especificación:
+
+ problema f6 (n:R , k:Z) : Booleano {
+    requiere : {True}
+    asegura : {si ParteEntera (n) = k --> res = True}
+    asegura : {si ParteEntera (n) =/ k --> res = False}
+ }
+
+ 
+
