@@ -159,4 +159,14 @@ comparar :: Integer -> Integer -> Integer
 comparar n k | ( sumaUltimosDigitos n ) < ( sumaUltimosDigitos k ) = 1
              | ( sumaUltimosDigitos n ) > ( sumaUltimosDigitos k ) = -1
              | ( sumaUltimosDigitos n ) == ( sumaUltimosDigitos k ) = 0
+            
+
+-- ** Ejercicio 7
+
+distanciaManhattan :: (Float , Float , Float) -> (Float , Float , Float) -> Float 
+distanciaManhattan (a , b , c) (d , e , f) = ( abs ( a - d ) ) + ( abs ( b - e ) ) + ( abs ( c - f ) )
+-- *! No utilicé la función absoluto del Ejercicio 2 ya que esa función trabaja con Integers.
+
+
+-- ** Fin de la Práctica 3.
 
