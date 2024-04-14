@@ -187,4 +187,57 @@ esCapicua n = compararCifras ( n ) ( cantDigitos ( n ) )
 -- No sé exactamente cómo, pero funciona.
 
 
--- * Ejercicio 
+-- * Ejercicio 10
+
+itemA :: Integer -> Integer 
+itemA 0 = 1
+itemA n = ( 2 ^ n ) + itemA ( n - 1 ) 
+
+itemB :: Float -> Integer -> Float  
+itemB q 1 = q 
+itemB q n = ( q ^ n ) + itemB q ( n - 1 ) 
+
+itemC :: Float -> Integer -> Float 
+itemC q 1 = ( q ^ 2 )
+itemC q n = ( q ^ ( 2 * n ) ) + itemC q ( n - 1 ) 
+
+itemD :: Float -> Integer -> Float
+itemD q n = ( itemC q n ) - ( itemB q ( n - 1 ) )  
+
+
+-- * Ejercicio 11 
+
+factorial :: Integer -> Float  
+factorial 0 = 1
+factorial n = fromIntegral ( n ) * factorial ( n - 1 ) 
+
+-- La función "factorial" funcionaría perfectamente con la signatura "Integer -> Integer".
+-- Sin embargo, como la siguiente función necesita un Float proveniente de la función 
+-- "factorial", le pongo la signatura que tiene. Ahora, "factorial" hace recursión; 
+-- el primer término es el "n" valor de entrada (que es Integer y rompe la función 
+-- ya que, por su signatura, debe devolver Float). Por eso al primer término de "factorial"
+-- lo trasnformo en Float con la función (integrada en Haskell) "fromInteger". 
+
+eAprox :: Integer -> Float 
+eAprox 0 = 1.0
+eAprox n = ( 1 / factorial ( n ) ) + eAprox ( n - 1 )   
+
+e :: Float 
+e = eAprox 9 
+
+-- Te preguntaras... el enunciado pide aproximar con 10 término. Tranquilo mi ciela.
+-- La función hace recursión hasta el 0; o sea digamos, si le pongo 10, la sumatoria
+-- va a tener 11 términos. Pero eso le pongo 9. 
+
+
+-- * Ejercicio 12 
+
+sucesionA :: Integer -> Float 
+sucesionA n | n == 1 = 2
+            | otherwise = 2 + ( 1 / sucesionA ( n - 1 ) ) 
+
+raizDe2Aprox :: Integer -> Float 
+raizDe2Aprox n = sucesionA n - 1 
+
+
+-- 
