@@ -240,4 +240,40 @@ raizDe2Aprox :: Integer -> Float
 raizDe2Aprox n = sucesionA n - 1 
 
 
+-- * Ejercicio 13
+
+sumatoriaInterna :: Integer -> Integer -> Integer  
+sumatoriaInterna n 1 = n  
+sumatoriaInterna n k = ( n ^ k ) + sumatoriaInterna n ( k - 1 ) 
+
+sumatoriaDoble :: Integer -> Integer -> Integer 
+sumatoriaDoble 1 k = 1 * k
+sumatoriaDoble n k = ( sumatoriaInterna n k ) + ( sumatoriaDoble ( n - 1 ) k )  
+
+-- ? Te preguntaras... ¿Por qué el caso base de "sumatoriaDoble" es "1 * k"? Bueno...
+-- ? Originariamente el caso base era "1 k = 1". Pero si lo dejo así, suma 1 una sola 
+-- ? vez; no hace "sumatoriaInterna" con el 1. El no ejecutar "sumatoriaInterna" con el 
+-- ? 1 hace que "pierda 1s". Para solucionarlo, hago manualmente "sumatoriaInterna" para 
+-- ? el caso base. Como ( 1 ^ k = 1 ), si hago variar el "k" y voy sumando los resultados,
+-- ? es lo mismo que sumar "k" veces 1; es decir, "1 * k". 
+
+
+-- * Ejercicio 14 
+
+-- n ^ ( a + b ) -> quiero hacer recursión sobre "b" y luego sobre "a" 
+
+sumaPotenciasB :: Integer -> Integer -> Integer -> Integer 
+sumaPotenciasB n a b | b == 1 = n ^ ( a + 1 )
+                     | otherwise = n ^ ( a + b ) + sumaPotenciasB n a ( b - 1 ) 
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer 
+sumaPotencias n a b | a == 1  = sumaPotenciasB n a b 
+                    | otherwise = ( sumaPotenciasB n a b ) + ( sumaPotencias n ( a - 1 ) b )  
+
+-- ! Revisar el cuaderno.
+-- Junto a la Especificación hice un ejemplo donde se ve mas explícitamente qué
+-- hacen las funciones (expliarlo es mucho texto jajaja, con el ejemplo lo
+-- entendes a toque).
+
+
 -- 
