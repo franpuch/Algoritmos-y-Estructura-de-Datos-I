@@ -111,10 +111,9 @@ sumaDigitos n | n <= 0 = 0
 
 todosDigitosIguales :: Integer -> Bool 
 todosDigitosIguales n | div n 10 == 0 = True 
-                      | otherwise = primerDigito n == primerDigito ( div n 10 ) 
+                      | otherwise = primerDigito n == primerDigito ( div n 10 ) && ( todosDigitosIguales ( div n 10 ) ) 
 
--- Recupero y utilizo la función "primerDigito" del Ejercicio 6.
--- ? Funciona, pero no estoy seguro de si hace recursión o no. No logro ver dónde recursiona.
+-- Recupero y utilizo la función "primerDigito" del Ejercicio 6. 
 
 
 -- * Ejercicio 8 
