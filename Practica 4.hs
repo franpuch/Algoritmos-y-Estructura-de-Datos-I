@@ -275,4 +275,75 @@ sumaPotencias n a b | a == 1  = sumaPotenciasB n a b
 -- entendes a toque).
 
 
+-- * Ejercicio 15
+
+sumaRacionalesDenominador :: Integer -> Integer -> Float 
+sumaRacionalesDenominador p 1 = fromIntegral ( p ) 
+sumaRacionalesDenominador p q = ( fromIntegral ( p ) / fromIntegral ( q ) ) + sumaRacionalesDenominador p ( q - 1 )  
+
+-- Utilizo la función "fromIntegral" en el caso base ya que la función espera como resultado 
+-- un Float, y "p" es Integer; para que no explote, transformo el "p" a Float y ualá.
+-- También utilizo "fromIntegral" para la parte de la división con "/" ya que esa 
+-- operación pertenece a los Tipo Float, no a los Tipo Int.
+
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 1 q = sumaRacionalesDenominador 1 q 
+sumaRacionales p q = ( sumaRacionalesDenominador p q ) + ( sumaRacionales ( p - 1 ) q )  
+
+-- ! Revisar el cuaderno.
+-- Junto a la Especificación hice un ejemplo donde se ve mas explícitamente qué
+-- hacen las funciones (expliarlo es mucho texto jajaja, con el ejemplo lo
+-- entendes a toque).
+
+
+-- * Ejercicio 16
+
+-- Item a --
+
+menorDivisorHasta :: Integer -> Integer -> Integer 
+menorDivisorHasta n k | mod n k == 0 = k     
+                      | otherwise = menorDivisorHasta n ( k + 1 )   
+
+-- Si "k" es divisor de "n", devuelvo "k". Sino, pruebo si el siguente a "k" es 
+-- divisor de "n". ¿Cuando paro? cuando me cruzo al primer divisor de "n". 
+
+menorDivisor :: Integer -> Integer 
+menorDivisor n = menorDivisorHasta n 2  
+
+-- Llamo a "menorDivisorHasta" y le digo que busque el primer divisor arrancando en 2
+-- (el divisor mas chico que puede tener "n").
+-- OBS Imp: la función no va a entrar en un bucle infinito ya que siempre va a llegar a
+-- "n", y va a parar (porque "n" divide a "n").
+
+
+-- Item b -- 
+
+esPrimo :: Integer -> Bool 
+esPrimo n = menorDivisor n == n 
+
+-- OBS Imp: No pongo guardas para decirle a la función cuando es True o False 
+-- (para ahorrarme texto). Por signatura la función ya sabe que debe devolver un Bool.
+-- Directamente le digo qué evaluar y ella ya interpreta: si lo que debe evaluar se
+-- cumple, debe devolver True; si no se cumple, debe devolver False.
+
+
+-- Item c --
+
+sonCoprimos :: Integer -> Integer -> Bool 
+sonCoprimos n k | ( esPrimo n == True ) && ( esPrimo k == True ) = True 
+                | n == 1 = True   -- Caso Base para ( n < k )
+                | k == 1 = True   -- Caso Base para ( n > k )
+                | ( mod n k == 0 ) || ( mod k n == 0 ) = False 
+                | n > k = sonCoprimos n ( k - 1 )
+                | n < k = sonCoprimos ( n - 1 ) k   
+
+-- Vamos por parte...
+-- Si ambos son primos, entonces son coprimos entre sí.
+-- n > k --> divido a "n" por "k". Si "k" no divide a "n", divido a "n" por el anterior
+--           de "k". Así hasta llegar a "k = 1", que quiere decir que son coprimos.
+-- n < k --> lo mismo que antes pero al revés. Si "n" no divide a "k", divido a "k" por
+--           el anterior de "n". Así hasta llegar a "n = 1", que quiere decir que son 
+--           coprimos. 
+
+
 -- 
