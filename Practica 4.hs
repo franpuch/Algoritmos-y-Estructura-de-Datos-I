@@ -346,4 +346,36 @@ sonCoprimos n k | ( esPrimo n == True ) && ( esPrimo k == True ) = True
 --           coprimos. 
 
 
--- 
+-- Item d --
+
+contadorDePrimos :: Integer -> Integer -> Integer -> Integer 
+contadorDePrimos n c p | c == p = ( n - 1 ) 
+                       | ( esPrimo n == True ) = contadorDePrimos ( n + 1 ) ( c + 1 ) p 
+                       | ( esPrimo n == False ) = contadorDePrimos ( n + 1 ) c p 
+
+-- Le pedis el primo número "p" y lo que hace es contar hasta que llega al primo que 
+-- pediste.
+-- n -> número que verifica si es primo.
+-- c -> contador de primos; cada vez que se cruza con un primo, suma 1 al contador.
+-- p -> primo número que le pediste.
+-- Funcionamiento general: verifica si "n" es primo. Si "n" es primo, suma 1 al 
+-- contador y pasa al siguiente "n". Si "n" no es primo, no suma nada al contador
+-- y sigue con el siguiente "n".
+-- Cuando el contador (c) es igual al número de primo que le pediste (p), te devuelve 
+-- el anterior del último "n" que tomó. ¿Por qué el anterior? Porque primero sumó 1
+-- al "n" (para seguir avanzando) y despúes verificó que "c = p". Por eso le resto ese
+-- último 1 que sumó, para obtener el "n" correspondiente al "c" que quiero.
+
+nEsimoPrimo :: Integer -> Integer 
+nEsimoPrimo n = contadorDePrimos 3 1 n 
+
+-- Le paso a "contadorDePrimos" que arranque verificando "n = 3", que inicie 
+-- el contador en "c = 1" (para que el primer primo sea "2") y que tome como
+-- número de primo (p) a "n".
+-- ¿Por qué le digo que arranque verificando "n = 3" y no "n = 2"? Pues
+-- "contadorDePrimos" devuelve como resultado el anterior al "n" que verifica
+-- si es primo o no; por lo tanto, si quiero que el primer primo sea "2", 
+-- debo decirle que arranque a verificar en "n = 3".   
+
+
+-- * 
