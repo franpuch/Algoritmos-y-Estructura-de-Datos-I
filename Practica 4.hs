@@ -378,4 +378,107 @@ nEsimoPrimo n = contadorDePrimos 3 1 n
 -- debo decirle que arranque a verificar en "n = 3".   
 
 
--- * 
+-- * Ejercicio 17
+
+comparadorFibonacci :: Integer -> Integer -> Bool 
+comparadorFibonacci n k | fibonacci n == k = True 
+                        | fibonacci n > k = False 
+                        | otherwise = comparadorFibonacci ( n + 1 ) k 
+
+-- La variable "k" es el número que quiero que vea si es fibonacci. Utiliza la
+-- función del Ejercicio 1. Calcula el n-esimo fibonacci y lo compara con "k".
+-- Si son iguales, devuelve True; sino, pasa al siguiente "n + 1"-esimo fibonacci
+-- y vuelve a comparar (y así sucesivamente). ¿Cuándo para? Cuando encuentra el 
+-- "k" entre los fibonacci, o cuando encuentra el primer fibonacci mayor que "k". 
+
+esFibonacci :: Integer -> Bool
+esFibonacci n = comparadorFibonacci 1 n 
+
+-- Llama a la función "comparadorFibonacci" y le dice que empiece a calcular
+-- fibonaccis (desde el primero) y los compare con el "n" (quien quiero ver que
+-- sea o no fibonacci).
+
+
+-- * Ejercicio 18
+
+comparadorDeDigitos :: Integer -> Integer -> Integer 
+comparadorDeDigitos n k | ( cantDigitos n == 1 ) && ( n <= k ) = k
+                        | ( cantDigitos n == 1 ) && ( n >= k ) = n 
+                        | primerDigito n <= k = comparadorDeDigitos ( div n 10 ) k
+                        | primerDigito n >= k = comparadorDeDigitos ( div n 10 ) ( primerDigito n )
+
+-- Esta función busca el dígito mas grande de forma indirecta. Recibe un número "n" y 
+-- va a comparar cada cifra con otro número "k". Siempre agarra la cifra de la unidad 
+-- (de "n") y lo compara con "k": si esa primer cifra es mayor que "k", se llama a sí 
+-- misma, toma como nuevo "k" a esa primer cifra, y toma como nuevo "n" a el "n sin
+-- su primer cifra"; si esa primer cifra es menor que "k", se llama a sí misma, mantiene
+-- el "k" que tenía, y toma como nuevo "n" a el "n sin su primer cifra". Así hasta que 
+-- "n" tiene una sola cifra, y compara esa última cifra con el "k" que viene arrastrando.  
+
+maximoDigito :: Integer -> Integer 
+maximoDigito n = comparadorDeDigitos n 1
+
+-- Esta función devuelve el dítito mas grande de un número "n" (de forma directa).
+-- Llama a la función "comparadorDeDigitos" y le dice que "k" sea 1 (como para darle
+-- el valor más chico y no perder posibles dígitos mayores dentro de "n"). 
+
+
+-- TODO: Falta la función que resuelva el problema del Ejercicio ("mayorDigitoPar").
+
+
+-- * Ejercicio 19 
+
+sumaDePrimos :: Integer -> Integer
+sumaDePrimos n | n == 1 = 2
+               | otherwise = ( nEsimoPrimo n ) + ( sumaDePrimos ( n - 1 ) ) 
+
+-- Esta función realiza la suma de los primeros "n" Primos. Calcula el "n"-esimo 
+-- Primo y lo suma con el anterior. La función hace recursión hasta que llega a 
+-- "n = 1", donde ya sabe que el primer primo es 2. 
+
+esSumaInicialDePrimosAux :: Integer -> Integer -> Bool  
+esSumaInicialDePrimosAux n k | n == sumaDePrimos k = True 
+                             | n < sumaDePrimos k = False 
+                             | otherwise = esSumaInicialDePrimosAux n ( k + 1 ) 
+
+-- Suma los primeros "k" números primos, y lo compara con "n". 
+-- Hace recursión. Arranca sumando los primeros "k" primos, si la suma no es igual
+-- a "n", suma los primeros "k + 1" primos y vuelve a comparar. ¿Cuando para? Cuando
+-- "n" es igual a la suma de los "k" primos (para algún "k"), o cuando la suma de 
+-- los primos dá un número mayor que "n".
+
+esSumaInicialDePrimos :: Integer -> Bool 
+esSumaInicialDePrimos n = esSumaInicialDePrimosAux n 1  
+
+-- Le dá un "n" a "esSumaInicialDePrimosAux" y le dice que empiece a calcular la suma 
+-- de primos desde el 1er primo.
+
+
+-- * Ejercicio 21   
+
+auxiliar1 :: Integer -> Integer -> Integer -> Integer 
+auxiliar1 m n r | ( n == 0 ) && ( m <= r ) = 1 
+                | ( n == 0 ) && ( m > r ) = 0 
+                | ( m ^ 2 ) + ( n ^ 2 ) <= ( r ^ 2 ) = ( auxiliar1 m ( n - 1 ) r ) + 1 
+                | otherwise = auxiliar1 m ( n - 1 ) r 
+
+-- ! Revisar el cuaderno.
+-- En el cuaderno tengo el desarrollo en papel de un caso. Esta función deja fijo
+-- el "m" y hace la recursión sobre el "n". Cada vez que verifica la desigualdad, 
+-- suma 1 (para ir contando); si no se verifica la desigualdad, no suma nada y sigue 
+-- bajando en la recursión.
+-- En cuanto a los dos casos base... Cuando "n = 0", la desigualdad depende de "m".
+-- Si "m <= r", entonces "(m^2) <= (r^2)"; por lo tanto quiero que se sume ese caso
+-- (sumo 1). Si "m > r", entonces "(m^2) > (r^2)"; por lo tanto no quiero que se sume
+-- ese caso (sumo 0, no sumo nada).  
+
+pitagoras :: Integer -> Integer -> Integer -> Integer 
+pitagoras m n r | ( m == 0 ) = auxiliar1 0 n r 
+                | otherwise = ( auxiliar1 m n r ) + ( pitagoras ( m - 1 ) n r ) 
+
+-- Nuevamente -- ! Revisar el cuaderno.
+-- Esta función hace la recursión sobre "m", y a cada "m" le aplica la función 
+-- "auxiliar1".      
+
+
+-- 
