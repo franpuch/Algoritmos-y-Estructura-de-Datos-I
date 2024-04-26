@@ -370,3 +370,140 @@ palabras l = palabrasAux l l
 -- ! esten permitidos.
 
 -- 4.d 
+longitud1raPalabra :: [ Char ] -> Integer
+longitud1raPalabra [] = 0  
+longitud1raPalabra (x:xs) | xs == []  = 1   
+                          | ( xs /= [] ) && ( head xs /= ' ' ) = 1 + longitud1raPalabra xs 
+                          | otherwise = 1  
+
+-- Devuelve la longitud de la 1ra palabra. Va mirando el primer elemento de la lista de forma
+-- indirecta, ya que lo hace mirando la pinta del "xs".
+-- ! Hay que pasarle listas de caracteres que no empiecen con un espacio (' ').
+-- Si el "xs" no es la lista vacía (es decir, hay otro elemento atras de "x") y, además, el
+-- primer elemento de "xs" no es un espacio; suma 1 (para ir contando las letras) y hace el
+-- paso recursivo. Si "xs" es la lita vacía, devolvé 1 (para contar la última letra en "x").
+-- Si "xs" no es la lista vacía pero su primer elemento es un espacio (' '), suma 1 (para 
+-- contar la última letra en "x") y para la recursión; porque ese espacio indica que la 
+-- primer palabra terminó.     
+-- Muy linda la función, pero al final tengo otra idea. La dejo por si mas adelante decido 
+-- usarla. 
+
+palabraMasLargaAux :: [ Char ] -> [ [ Char ] ] -> [ Char ]  
+palabraMasLargaAux l (x:xs) | ( xs == [] ) && longitud l >= longitud x = l 
+                            | ( xs == [] ) && longitud l < longitud x = x 
+                            | longitud l >= longitud x = palabraMasLargaAux l xs 
+                            | longitud l < longitud x = palabraMasLargaAux x xs 
+
+-- Le pasas una lista de palabras (lista de listas de Char) y una palabra (lista de Char).
+-- Compara la longitud de la palabra con la longitud de la primera palabra de la lista
+-- de palabras. Si la palabra (pasada como parámetro) es mas larga, se queda con esa 
+-- palabra y vuelve a comparar con la primera palabra de "xs". Si la primera palabra de la 
+-- lista es mas larga que la palabra pasada como parámetro, se queda con la primera palabra
+-- de ls lista como parámetro y la compara con la primera palabra de "xs".
+-- Cuando "xs" es vacío, la lista de palabras tiene una sola, comparo la palabra parámetro
+-- con la palabra que queda en la lista; y devuelvo la mas larga.
+-- Si hay 2 (o más) "palabras mas largas", devuelvo la primera que encontré.
+
+palabraMasLarga :: [ Char ] -> [ Char ] 
+palabraMasLarga (x:xs) = palabraMasLargaAux ( primeraPalabra (x:xs) ) ( palabras xs )
+
+-- Recibe una lista de Char, le pasa a "palabraMasLargaAux" la primera palabra (como
+-- palabra parámetro) y el resultado de aplicar "palabras" a "xs" (o sea, le da una lista
+-- de palabras, donde las palabras son las palabras que hay metias en la lista de entrada).
+-- Devuelve la palabra mas larga de la lista de entrada. 
+-- ! En la especificación no debería permitir pasarle una lista vacía [], porque el problema
+-- ! deja de tener sentido. Tampoco debería permitir una lista que termine con espacio (' ').
+-- ! Si empieza con espacio no pasa nada, si termina con espacio se rompe todo.
+
+-- 4.e
+aplanar :: [ [ Char ] ] -> [ Char ]
+aplanar [] = [] 
+aplanar (x:xs) | xs /= [] = x ++ aplanar xs 
+               | otherwise = x  
+
+-- 4.f
+aplanarConBlancos :: [ [ Char ] ] -> [ Char ]
+aplanarConBlancos [] = [] 
+aplanarConBlancos [x] = x 
+aplanarConBlancos (x:xs) = x ++ [' '] ++ aplanarConBlancos xs 
+
+-- 4.g
+listaDeNEspacios :: Integer -> Integer -> [ Char ]
+listaDeNEspacios n c | n == c = [] 
+                     | otherwise = [' '] ++ listaDeNEspacios n ( c + 1 )  
+
+-- Te devuelve una lista que tiene "n" espacios.
+-- n -> cantidad de espacios que debe tener la lista resultado.
+-- c -> contador de espacios.
+-- Lo ideal es arrancar con "c = 0". Si "n /= c", concateno una lista que tiene un espacio 
+-- (' ') y hago el paso recursivo sumando 1 al contador (c + 1). Cuando llego al caso base
+-- ("n = c"), concateno la lista vacía para terminar la recursión. Y me queda como resultado
+-- una lista con "n" espacios.
+
+aplanarConNBlancos :: [ [ Char ] ] -> Integer -> [ Char ] 
+aplanarConNBlancos [] _ = []
+aplanarConNBlancos [x] _ = x 
+aplanarConNBlancos (x:xs) n = x ++ listaDeNEspacios n 0 ++ aplanarConNBlancos xs n 
+
+
+-- * Ejercicio 5
+
+-- 5.1
+sumaDeElementos :: ( Num t ) => [t] -> t 
+sumaDeElementos [] = 0 
+sumaDeElementos (x:xs) = x + sumaDeElementos xs 
+
+-- Esta función te devuelve la suma de todos los elementos de una lista.
+
+quitarUltimo :: ( Eq t ) => [t] -> [t] 
+quitarUltimo [] = [] 
+quitarUltimo (x:xs) | xs /= [] = x : quitarUltimo xs 
+                    | xs == [] = [] 
+
+-- Esta función te devuelve la lista sin el último elemento. Hace el mismo laburo que la 
+-- función "principio" (que definí antes), pero quería hacerla de nuevo (para recordarla).
+
+sumaAcumulada :: ( Eq t ) => ( Num t ) => [t] -> [t] 
+sumaAcumulada [] = []
+sumaAcumulada l = sumaAcumulada ( quitarUltimo l ) ++ [ sumaDeElementos l ]     
+
+-- Suma todos los elementos de la lista "l" (llamando a "sumaDeElementos"), con el resultado
+-- hace una lista y la concatena a la suma de todos los elementos de la lista "l" sin el 
+-- último elemento. Hace recursión (sacando el último elemento) hasta que se encuentra 
+-- con la lista vacía.
+-- OBS -> no uso el constructor ":" porque su sintaxis es al revés, y la lista resultado me
+--        queda al reves de como me pide la epecificación.
+
+-- 5.2
+esPrimoAux :: Integer -> Integer -> Bool
+esPrimoAux n m | n == m = True 
+               | mod n m == 0 = False 
+               | otherwise = esPrimoAux n ( m + 1 ) 
+
+esPrimo :: Integer -> Bool 
+esPrimo n = esPrimoAux n 2   
+
+descomponerEnPrimosAux :: Integer -> Integer -> [ Integer ]  
+descomponerEnPrimosAux _ 1 = []  
+descomponerEnPrimosAux n m | ( mod n m == 0 ) && ( esPrimo m == True ) = ( descomponerEnPrimosAux ( div n m ) m ) ++ [m] 
+                           | ( mod n m /= 0 ) = descomponerEnPrimosAux n ( m - 1 ) 
+                           | otherwise = descomponerEnPrimosAux n ( m - 1 ) 
+
+-- Forma artesanal de descomponer en primos un número.
+-- n -> número que estoy descomponiendo.
+-- m -> número que verifico si es primo y si divide a "n".
+-- Si "m" divide a "n" y (además) es primo, lo meto en la bolsa concatenando una lista
+-- con "m" en su interior y vuelvo a aplicar la función con el resultado de la división
+-- (como nuevo "n"). Si "m" no divide a "n" o "m" no es primo, paso al siguiente "m" y 
+-- vuelvo a verificar. Siempre voy a arrancar en "m = n" (lo determino en la próxima
+-- función), por lo tanto la recursión va a ir para atras (voy a ir restando). Cuando
+-- "m = 1" quiero parar la recursión (pues 1 es divisor de todos) y concateno la lista
+-- vacía (no quiero al 1 como primo divisor).                                                          
+
+descomponerEnPrimos :: [ Integer ] -> [ [ Integer ] ]  
+descomponerEnPrimos [] = [] 
+descomponerEnPrimos (x:xs) = ( descomponerEnPrimosAux x x ) : ( descomponerEnPrimos xs )   
+
+
+-- * Fin de la Práctica 5.
+
