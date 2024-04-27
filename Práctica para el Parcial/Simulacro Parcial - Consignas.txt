@@ -9,9 +9,9 @@ Introducción a la Programación de Exactas-UBA.
  Ejercicio 1
 problema relacionesValidas (relaciones: seq⟨String x String⟩) : Bool {
   requiere: {True}
-  asegura: {(res = true) <=> relaciones no contiene ni tuplas repetidas1, ni tuplas con ambas componentes iguales}
+  asegura: {(res = true) <=> relaciones no contiene ni tuplas repetidas (1), ni tuplas con ambas componentes iguales} 
 }
-1 A los fines de este problema, consideraremos que dos tuplas son iguales si el par de elementos que las componen (sin importar el orden) son iguales.
+(1) A los fines de este problema, consideraremos que dos tuplas son iguales si el par de elementos que las componen (sin importar el orden) son iguales. 
 
  Ejercicio 2
 problema personas (relaciones: seq⟨String x String⟩) : seq⟨String⟩ {
