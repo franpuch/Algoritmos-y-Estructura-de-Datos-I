@@ -108,9 +108,27 @@ maximoDeTuplas (x:y:xs) | (xs == []) && ((snd x) >= (snd y)) = x
 -- Va a ir comparando las tuplas de la lista que sale de "aparicionesPorPersona",
 -- y te devuelve la tupla de la persona con mas apariciones.
 
-personaConMasAmigos :: [(String, String)] -> String
+personaConMasAmigos :: [(String,String)] -> String
 personaConMasAmigos l = fst (maximoDeTuplas (aparicionesPorPersona l))   
 
 -- Te devuelve el primer elemento (o sea, la persona) de la tupla que más apariciones
 -- tiene. Para eso, pide el resultado de "maximoDeTuplas" y te da su primer elemento.
 
+
+-- * Ejercicio 4 - Versión Optimizada.
+
+longitud :: [t] -> Integer
+longitud [] = 0 
+longitud (x:xs) = 1 + longitud xs 
+
+buscarPersonaConMasAmigos :: [(String,String)] -> [String] -> String 
+buscarPersonaConMasAmigos _ [x] = x 
+buscarPersonaConMasAmigos l (x:xs) | (longitud (amigosDe x l)) >= (cantAmigosRecursivo) = x 
+                                   | otherwise = buscarPersonaConMasAmigos l xs       
+                                where cantAmigosRecursivo = longitud (amigosDe (buscarPersonaConMasAmigos l xs) l) 
+
+personaConMasAmigosOp :: [(String,String)] -> String 
+personaConMasAmigosOp l = buscarPersonaConMasAmigos l (personas l) 
+
+
+-- * Fin del Simulacro de Parcial. 
