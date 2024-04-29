@@ -23,7 +23,7 @@ por María Montero obtuvo 56 votos, y la lista encabezada por Juan Pérez obtuvo
 Ejercicio 1 - Porcentaje de Votos Afirmativos.
 
 problema porcentajeDeVotosAfirmativos (formulas: seq ⟨ String x String ⟩ , votos: seq< Z >, cantTotalVotos: Z) : R {
-requiere: { formulasInvalidas(formulas) }
+requiere: { - formulasInvalidas(formulas) }
 requiere: { |formulas| = |votos| }
 requiere: { Todos los elementos de votos son mayores o iguales a 0 }
 requiere: { La suma de todos los elementos de votos es menor o igual a cantTotalVotos }
@@ -48,7 +48,7 @@ Ejercicio 3 - Porcentaje de Votos.
 
 problema porcentajeDeVotos (vice: String , formulas: seq ⟨ String x String ⟩ , votos: seq < Z >) : R {
 requiere: { La segunda componente de algún elemento de formulas es vice }
-requiere: { formulasInvalidas(formulas) }
+requiere: { - formulasInvalidas(formulas) }
 requiere: { |formulas| = |votos| }
 requiere: { Todos los elementos de votos son mayores o iguales a 0 }
 requiere: { Hay al menos un elemento de votos mayores estricto a 0 }
@@ -61,7 +61,7 @@ Para resolver este ejercicio pueden utilizar la función "division" presentada e
 Ejercicio 4 - Menos Votado.
 
 problema menosVotado (formulas: seq ⟨ String x String ⟩ , votos: seq < Z >) : String {
-requiere: { formulasInvalidas(formulas) }
+requiere: { - formulasInvalidas(formulas) }
 requiere: { |formulas| = |votos| }
 requiere: { Todos los elementos de votos son mayores o iguales a 0 }
 requiere: { Hay al menos un elemento de votos mayores estricto a 0 }
