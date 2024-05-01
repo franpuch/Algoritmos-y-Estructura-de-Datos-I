@@ -422,7 +422,15 @@ maximoDigito n = comparadorDeDigitos n 1
 -- Llama a la función "comparadorDeDigitos" y le dice que "k" sea 1 (como para darle
 -- el valor más chico y no perder posibles dígitos mayores dentro de "n"). 
 
+esPar :: Integer -> Bool 
+esPar n = mod n 2 == 0
 
+todosSusDigitosSonImpares :: Integer -> Bool 
+todosSusDigitosSonImpares n | ( div n 10 == 0 ) && ( esPar n == False ) = True 
+                            | ( esPar (mod n 10) == False ) = todosSusDigitosSonImpares ( div n 10 ) 
+                            | otherwise = False  
+ 
+ 
 -- TODO: Falta la función que resuelva el problema del Ejercicio ("mayorDigitoPar").
 
 
@@ -454,6 +462,41 @@ esSumaInicialDePrimos n = esSumaInicialDePrimosAux n 1
 -- de primos desde el 1er primo.
 
 
+-- * Ejercicio 20
+
+sumaDivisoresHasta :: Integer -> Integer -> Integer
+sumaDivisoresHasta _ 1 = 1
+sumaDivisoresHasta n m | mod n m == 0 = m + sumaDivisoresHasta n (m-1) 
+                       | otherwise = sumaDivisoresHasta n (m-1) 
+
+-- Suma los divisores de "n" hasta llegar a "m".
+-- "m" es el número que voy fijandome que sea divisor, es sobre el cual hago la recursión.
+-- Voy con recursión hacia atrás, cuando llego a "m = 1", devuelvo 1 ya que es divisor 
+-- universal.
+
+sumaDivisores :: Integer -> Integer 
+sumaDivisores n = sumaDivisoresHasta n n 
+
+-- Le doy un "n" y me calcula la suma de sus divisores.
+
+tomaValorMax :: Integer -> Integer -> Integer 
+tomaValorMax n1 n2 | n1 == n2 = n1 
+                   | sumaDivisores n1 >= sumaDivisores (tomaValorMax (n1+1) n2) = n1
+                   | otherwise = tomaValorMax (n1+1) n2 
+
+-- Agarro un rango de números [n1,n2] y quiero ver qué número en ese rango tiene mayor suma
+-- de divisores. La idea es que mágicamentes conozco la respuesta entre el rango [n1 + 1 , n2].
+-- Entonces, comparo (sumaDeDivisores n1) con (sumaDeDivisores (tomaValorMax (n1+1) n2)), 
+-- porque conozco la respuesta de (tomaValorMax (n1+1) n2). Así voy a ir recursivamente 
+-- hasta que n1 llegue a n2; es decír, n1 = n2. En ese caso, la respuesta trivial es n2.
+-- La última comparación es (sumaDeDivisores n1) con (sumaDeDivisores (paso recursivo)).
+-- Allí gana o el n1 o el paso recursivo (el resultado de todas las recursiones).  
+
+-- Esta es otra forma de pensar la recursión. Yo conozco el resultado del "paso recursivo"
+-- "mágicamente". Entonces, es como que lo uso en la función que estoy comparando.
+-- El caso base es el caso "trivial".
+
+
 -- * Ejercicio 21   
 
 auxiliar1 :: Integer -> Integer -> Integer -> Integer 
@@ -481,4 +524,4 @@ pitagoras m n r | ( m == 0 ) = auxiliar1 0 n r
 -- "auxiliar1".      
 
 
--- 
+-- * Fin de la Práctica 4. 
