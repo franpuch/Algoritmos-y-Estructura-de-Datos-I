@@ -89,3 +89,39 @@ porcentajeDeVotos presidente formulas votos = ((votosDeCandidato presidente form
 
 
 -- Ejercicio 4.
+proximoPresidenteAux :: [String] -> [(String,String)] -> [Int] -> String
+proximoPresidenteAux [x] _ _ = x 
+proximoPresidenteAux (x:y:xs) formulas votos | (votosDeCandidato x formulas votos) > (votosDeCandidato y formulas votos) = proximoPresidenteAux (x:xs) formulas votos 
+                                             | otherwise = proximoPresidenteAux (y:xs) formulas votos 
+
+-- Compara los votos de los distintos candidatos a presidente, compara de a dos en dos.
+-- Por eso le muestro cómo comparar en una lista de (almenos) 2 elementos (x:y:xs).
+-- Después, le muestro cómo hacer la recursión; quedandose con el candidatos que tiene más
+-- votos (de ese par) y pasando a comparar con el siguiente.   
+
+proximoPresidente :: [(String,String)] -> [Int] -> String 
+proximoPresidente [(p,v)] _ = p 
+proximoPresidente formulas votos = proximoPresidenteAux (candidatosPresidente (formulas)) formulas votos 
+
+-- Forma 1 de resolver este ejercicio.
+
+proximoPresidenteAux2 :: [String] -> [(String,String)] -> [Int] -> String 
+proximoPresidenteAux2 [x] _ _ = x 
+proximoPresidenteAux2 (x:xs) formulas votos | (votosDeCandidato x formulas votos) > (votosDeCandidato (proximoPresidenteAux2 xs formulas votos) formulas votos) = x 
+                                            | otherwise = proximoPresidenteAux2 xs formulas votos 
+
+-- Compara la cantidad de votos de los candidatos a presidente, lo hace de a dos 
+-- en dos. Calcula la cantidad de votos de el primer elemento de la lista 
+-- [candidatosPresidente] y lo compara recursivamente con el resultado de hacer 
+-- la comparación recorriendo toda la lista. Digamos que mágicamente sabe cuál es
+-- el candidato con mas votos en "xs", y lo compara con la cantidad de votos de "x".
+-- Ese "saber mágicamente" implica una recursión que cae en el caso base de 
+-- [candidatosPresidente] de un solo elemento; en ese caso la respuesta es ese 
+-- elemento único.
+
+proximoPresidente2 :: [(String,String)] -> [Int] -> String 
+proximoPresidente2 formulas votos = proximoPresidenteAux2 (candidatosPresidente (formulas)) formulas votos 
+
+-- Forma 2 de resolver este ejercicio. 
+
+-- * Fin del Primer Parcial
