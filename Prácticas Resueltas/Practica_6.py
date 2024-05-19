@@ -304,7 +304,7 @@ chamba ("M",22)
 
 #* Ejercicio 6.
 
-print ("\nEjercicio 5 \n")  # Para que los test no me salga todo junto y sea un lío en terminal.
+print ("\nEjercicio 6 \n")  # Para que los test no me salga todo junto y sea un lío en terminal.
 
 # 6.1 
 
@@ -383,3 +383,76 @@ def monitoreo_viaje_2 (p:int) -> None :
 monitoreo_viaje_2 (-304)  # Este llega a 384 aC.
 monitoreo_viaje_2 (-307)  # Este no llega a 384 aC, se queda antes. 
 
+
+#* Ejercicio 7. 
+
+print ("\nEjercicio 7 \n")  # Para que los test no me salga todo junto y sea un lío en terminal.
+
+# 7.1 
+
+def imrpimir_1_al_10 () -> None : 
+    for i in range (1,11,1) : 
+        print (i) 
+
+imrpimir_1_al_10 () 
+
+# 7.2
+
+def imprimir_pares_entre () : 
+    for i in range (10,41,2) : 
+        print (i) 
+
+imprimir_pares_entre () 
+
+# 7.3 
+
+def imprimir_eco_10_veces () : 
+    for i in range (1,11,1) : 
+        print ("eco") 
+
+imprimir_eco_10_veces () 
+
+# 7.4 
+
+def cuenta_regresiva (n:int) -> None :
+    for i in range (n,0,-1) : 
+        print (i)  
+    print ("¡Despegue!") 
+
+cuenta_regresiva (15) 
+
+# Si quiero que el "for" vaya para atrás (cuenta regresiva) el "tamaño del paso" debe ser
+# un número negativo.
+
+# 7.5 
+
+def seguimiento_de_viaje (p:int , ll:int) : 
+    for i in range (p,(ll - 1),-1) : 
+        print ("Viajó un año al pasado, estamos en el año " , i) 
+
+seguimiento_de_viaje (2024,2017) 
+
+# 7.6 
+
+def monitoreo_viaje_a_epoca_Aristoteles (p: int) -> None:
+    for i in range(p, -406, -20):
+        if (i > -384) :
+            print("Viajó 20 años al pasado, estamos en el año: ",i)
+        elif (i == -384) : 
+            print ("Llegamos al año: ",i,".Época de Aristóteles.") 
+        else :
+            print ("Llegamos lo más cercano a la época de Aristóteles (saltando cada 20 años). Año: ",i + 20)  
+
+monitoreo_viaje_a_epoca_Aristoteles (-304)  
+monitoreo_viaje_a_epoca_Aristoteles (-300)  
+
+# OBS IMP --> Si a los "if" dentro del "for" les pongo la instrucción "return", no avanza
+#             el ciclo; la instrucción "return" devuelve el resultado y rompe el ciclo.
+#? ¿Por qué el valor final del bucle es -406, y no -385? Debajo estoy añadiendo condicionales 
+#? "if" con condiciones de valores que "i" no tomaría si el bucle terminara en -385 (el "else" 
+#? no se evaluaría nunca, ya que "i" corta en -384 y no llega a ser mayor). Entonces, para que
+#? "else" evalúe, debo asegurarme que "i" sea mayor a la condición de esa instrucción; para
+#? ello, le añado una iteración más.
+
+
+#* Fin de la Práctica 6. 
