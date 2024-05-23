@@ -338,7 +338,6 @@ def reemplazar_vocales (s:str) -> str :
             x = x + s[i] 
         else : 
             x = x + "_"
-    print (s) 
     return x 
 
 #? Probé el siguiente algoritmo < Copio en "x" a "s" y recorro "x" con x[i]. Si x[i] es una
@@ -376,8 +375,7 @@ def eliminar_repetidos (s:str) -> str :
         if (not (pertenece (limpio,s[i]))) : 
             limpio = limpio + s[i] 
         else : 
-            None 
-    print (s) 
+            None  
     return limpio 
 
 # print (eliminar_repetidos (""))
