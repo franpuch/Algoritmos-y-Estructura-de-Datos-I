@@ -1,9 +1,10 @@
 # Práctica 7 - Funciones sobre Listas.
 
-#* Ejercicio 1.
-
 print ("Práctica 7 - Funciones sobre Listas")
-print ("\nEjercicio 1\n")
+print ("\nEjercicio 3\n")
+
+
+#* Ejercicio 1.
 
 # 1.1
 def pertenece (s:list[int] , e:int) -> bool : 
@@ -273,4 +274,115 @@ def tieneAlMenos3VocalesDistintas (s:str) -> bool :
 # print (tieneAlMenos3VocalesDistintas ("aiaoauoiuaa"))
 # print (tieneAlMenos3VocalesDistintas ("Distintas"))
 # print (tieneAlMenos3VocalesDistintas ("srtgw"))
+
+
+#* Ejercicio 2
+
+# 2.1 
+def cero_en_posicion_par (s:list[int]) -> list[int] : 
+    i:int = 0 
+    while (i < len(s)) :
+        if (i % 2 == 0) :
+            s[i] = 0
+            i += 1
+        else : 
+            i += 1 
+    return s 
+
+# print (cero_en_posicion_par ([]))
+# print (cero_en_posicion_par ([4]))
+# print (cero_en_posicion_par ([0,1,2,3,4])) 
+
+# 2.2 
+def cero_en_posicion_par_v2 (s:list[int]) -> list[int] :
+    x = s.copy() 
+    for i in range (0,len(x),1) :
+        if (i % 2 == 0) :
+            x[i] = 0 
+        else : 
+            None
+    return x 
+
+#! Si antes del return añado la instrucción print(s), verifico que efectivamente "s" no 
+#! se modificó.
+
+# print (cero_en_posicion_par_v2 ([]))
+# print (cero_en_posicion_par_v2 ([4]))
+# print (cero_en_posicion_par_v2 ([0,1,2,3,4])) 
+
+# 2.3 
+def borrar_vocales (s:str) -> str : 
+    vocales:list[str] = ['a','e','i','o','u']
+    sinVocales:str = "" 
+    i:int = 0 
+    while (i < len(s)) :
+        if (pertenece (vocales,s[i])) : 
+            i += 1 
+        else : 
+            sinVocales = sinVocales + s[i] 
+            i += 1 
+    return sinVocales 
+
+# print (borrar_vocales (""))
+# print (borrar_vocales ("t"))
+# print (borrar_vocales ("hola"))
+# print (borrar_vocales ("xd xd qcy"))
+# print (borrar_vocales ("aeiaiou")) 
+
+# 2.4 
+def reemplazar_vocales (s:str) -> str : 
+    vocales:list[str] = ['a','e','i','o','u']
+    x:str = "" 
+    for i in range (0,len(s),1) : 
+        if (not (pertenece (vocales,s[i]))) : 
+            x = x + s[i] 
+        else : 
+            x = x + "_"
+    print (s) 
+    return x 
+
+#? Probé el siguiente algoritmo < Copio en "x" a "s" y recorro "x" con x[i]. Si x[i] es una
+#?                                vocal (pertenece a [vocales]), hago "x[i]='_'". Si x[i] no
+#?                                es una vocal (no pertenece a [vocales]), lo dejo y paso 
+#?                                al siguiente. >
+#? Pero no me reconocía el x[i]='_'.
+
+# print (reemplazar_vocales (""))
+# print (reemplazar_vocales ("hola"))
+# print (reemplazar_vocales ("xd xd xd"))
+# print (reemplazar_vocales ("aeieioou oooo")) 
+
+# 2.5 
+def da_vuelta_str (s:str) -> str : 
+    reverso:str = "" 
+    i:int = (len(s) - 1) 
+    while (i >= 0) : 
+        reverso = reverso + s[i]
+        i -= 1 
+    return reverso 
+
+#! Otra implementación del mismo problema la hice en el Ejercicio 1.6
+#! Esta vez lo implementé con WHILE (antes con FOR).
+
+# print (da_vuelta_str ("")) 
+# print (da_vuelta_str ("d"))
+# print (da_vuelta_str ("Hola")) 
+# print (da_vuelta_str ("Hola ¿que TAL?")) 
+
+# 2.6 
+def eliminar_repetidos (s:str) -> str : 
+    limpio:str = ""
+    for i in range (0,len(s),1) :
+        if (not (pertenece (limpio,s[i]))) : 
+            limpio = limpio + s[i] 
+        else : 
+            None 
+    print (s) 
+    return limpio 
+
+# print (eliminar_repetidos (""))
+# print (eliminar_repetidos ("hola"))
+# print (eliminar_repetidos ("Hoolaaaaa"))
+# print (eliminar_repetidos ("VVVVVVV"))
+# print (eliminar_repetidos ("xd xd xd rs")) 
 
