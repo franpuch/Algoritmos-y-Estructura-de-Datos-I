@@ -501,11 +501,11 @@ def pertenece_a_cada_uno_version_1_2 (s:list[list[int]] , e:int , res:list[bool]
             i += 1 
      print (res)
 
-print (pertenece_a_cada_uno_version_1_2 ([],5,[True,False]))
-print (pertenece_a_cada_uno_version_1_2 ([[],[],[]],8,[True,True,True,True]))
-print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
-print (pertenece_a_cada_uno_version_1_2 ([[1,2,1],[5,8,4],[4,1,2]],3,[True]))
-print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False]))
+# print (pertenece_a_cada_uno_version_1_2 ([],5,[True,False]))
+# print (pertenece_a_cada_uno_version_1_2 ([[],[],[]],8,[True,True,True,True]))
+# print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
+# print (pertenece_a_cada_uno_version_1_2 ([[1,2,1],[5,8,4],[4,1,2]],3,[True]))
+# print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False]))
 
 # Quedó mas cochina la cosa. La especificación me dice que |res| no debe (necesariamente) ser 
 # igual a |s| al finalizar la ejecución del programa. Esto me dice que no es necesario que "limpie"
@@ -529,4 +529,48 @@ print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True
 # al finalizar la ejecución. Esto me obliga a tener que "limpiar res" antes de empezar a añadir
 # los resultados. Teniendo en cuenta que en el 5.1 realicé dos implementaciones, sólo la primera
 # ("pertenece_a_cada_uno_version_1") serviría para resolver este problema.
+
+# 5.3 
+def es_lista_vacía_o_inicia_con_lista_vacía (s:list[list[int]]) -> bool : 
+    res:bool = False 
+    if (((len(s)) == 0) or ((len(s[0])) == 0)) : 
+        res = True
+    else : 
+        None 
+    return res 
+
+# print (es_lista_vacía_o_inicia_con_lista_vacía ([])) 
+# print (es_lista_vacía_o_inicia_con_lista_vacía ([[]]))
+# print (es_lista_vacía_o_inicia_con_lista_vacía ([[],[1,2,3]]))
+# print (es_lista_vacía_o_inicia_con_lista_vacía ([[1,2,3]])) 
+# print (es_lista_vacía_o_inicia_con_lista_vacía ([[1,2,3],[4,5,6,7]])) 
+
+def es_matriz (s:list[list[int]]) -> bool : 
+    res:bool = True
+    if (not (es_lista_vacía_o_inicia_con_lista_vacía (s))) : 
+        for i in range (0,len(s),1) : 
+            if (len(s[i]) != len (s[0])) : 
+                res = False 
+    else : 
+        res = False 
+    return res 
+
+# print (es_matriz ([]))
+# print (es_matriz ([[]])) 
+# print (es_matriz ([[],[1,2,3]])) 
+# print (es_matriz ([[1,2,3],[4,5,6],[]]))
+# print (es_matriz ([[1,2,3],[2],[4,5,6]]))
+# print (es_matriz ([[7,5,2]]))
+# print (es_matriz ([[8,8],[78,6],[965,7],[8,8]])) 
+
+# 5.4 
+def filas_ordenadas (s:list[list[int]] , res:list[bool]) : 
+    res.clear() 
+    for i in range (0,len(s),1) : 
+        res.append(ordenados (s[i])) 
+    return res 
+
+# print (filas_ordenadas ([[1,2],[4,9],[10,15],[1,5]],[]))
+# print (filas_ordenadas ([[5,1],[4,1],[10,0],[1,-5]],[True])) 
+# print (filas_ordenadas ([[1,2],[8,-2],[10,-15],[1,5]],[False,False,False,False])) 
 
