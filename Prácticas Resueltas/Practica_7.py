@@ -1,7 +1,7 @@
 # Práctica 7 - Funciones sobre Listas.
 
-print ("Práctica 7 - Funciones sobre Listas")
-print ("\nEjercicio 3\n")
+print ("\nPráctica 7 - Funciones sobre Listas")
+print ("\nEjercicio 5\n")
 
 
 #* Ejercicio 1.
@@ -383,4 +383,150 @@ def eliminar_repetidos (s:str) -> str :
 # print (eliminar_repetidos ("Hoolaaaaa"))
 # print (eliminar_repetidos ("VVVVVVV"))
 # print (eliminar_repetidos ("xd xd xd rs")) 
+
+
+#* Ejercicio 3.
+
+def no_hay_aplazos (s:list[int]) -> bool : 
+    res:bool = True 
+    i:int = 0 
+    while ((i < len(s)) and (s[i] >= 4)) : 
+        i += 1 
+    if (i < len (s)) : 
+        res = False 
+    else : 
+        None 
+    return res
+
+# Recorre la lista de notas y devuelve True (si esa lista no tiene ninguna nota menor a 
+# 4) o False (si encuentra alguna nota menor a 4).
+
+# print (no_hay_aplazos ([8]))
+# print (no_hay_aplazos ([3]))
+# print (no_hay_aplazos ([8,7,4,5]))
+# print (no_hay_aplazos ([8,7,3,8,2])) 
+
+def promedio (s:list[int]) -> int : 
+    def suma_de_notas (n:list[int]) -> int : 
+        suma:int = 0 
+        for i in range (0,len(n),1) : 
+            suma = suma + n[i] 
+        return suma 
+    sumaNotas:int = suma_de_notas (s) 
+    promedio:float = sumaNotas / len(s) 
+    return promedio 
+
+# print (promedio ([8])) 
+# print (promedio ([8,8,9,7]))
+# print (promedio ([4,10,8,1,6])) 
+
+def aprobado (notas:list[int]) -> int : 
+    if ((no_hay_aplazos (notas)) and ((promedio (notas)) >= 7)) : 
+        return 1 
+    elif ((no_hay_aplazos (notas)) and ((promedio (notas)) < 7) and ((promedio (notas)) >= 4)) : 
+        return 2 
+    else : 
+        return 3 
+    
+# print (aprobado ([8]))
+# print (aprobado ([8,7,9,6,6,9]))
+# print (aprobado ([5]))
+# print (aprobado ([5,4,4,5,6,4]))
+# print (aprobado ([4,4,4,4,4]))
+# print (aprobado ([2]))
+# print (aprobado ([4,3,3,2])) 
+
+
+#* Ejercicio 4.
+
+# 4.1
+# def lista_de_nombres () -> list[str] : 
+#     nombres:list[str] = [] 
+#     print ("Ingrese el nombre del alumno. Ingrese <listo> para finalizar: ")
+#     alumno:str = str(input()) 
+#     while (alumno != "listo") : 
+#         nombres = nombres.append(alumno) 
+#     return nombres 
+
+# lista_de_nombres () 
+
+#! No machea los Tipos. Igual creo que la hice para el traste. 
+#? Me dejo el código. Consultar cómo usar correctamente la función input.
+
+
+#* Ejercicio 5.
+
+# 5.1
+def pertenece_a_cada_uno_version_1 (s:list[list[int]] , e:int , res:list[bool]) -> None : 
+    res.clear()
+    i:int = 0 
+    while (i < len(s)) : 
+        if (pertenece (s[i],e)) : 
+            res.append (True) 
+            i += 1 
+        else : 
+            res.append (False) 
+            i += 1 
+    print (res) 
+
+# print (pertenece_a_cada_uno_version_1 ([],5,[True,False]))
+# print (pertenece_a_cada_uno_version_1 ([[],[],[]],8,[True,True,True,True]))
+# print (pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
+# print (pertenece_a_cada_uno_version_1 ([[1,2,1],[5,8,4],[4,1,2]],3,[False]))
+# print (pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False])) 
+
+#? Cada vez que lo ejecuto, hace el trabajo bien; pero también imprime "None" al finalizar la
+#? ejecución de cada llamado.
+
+
+# Otra implementación del mismo problema SIN "LIMPIAR" LA LISTA RES (de entrada):
+def pertenece_a_cada_uno_version_1_2 (s:list[list[int]] , e:int , res:list[bool]) -> None : 
+     def igualador_de_longitudes (x:list[list[int]] , y:list[bool]) -> list[bool] :
+         if (len(y) < len(x)) : 
+             j:int = 0 
+             while (j < (len(x) - len(y))) : 
+                 y.insert (0,False)
+                 j += 1 
+             return y
+         else : 
+            return y 
+     res = igualador_de_longitudes (s,res)
+     i:int = 0
+     while (i < len(s)) : 
+        if (pertenece (s[i],e)) : 
+            res.insert (i,True) 
+            i += 1 
+        else : 
+            res.insert (i,False) 
+            i += 1 
+     print (res)
+
+print (pertenece_a_cada_uno_version_1_2 ([],5,[True,False]))
+print (pertenece_a_cada_uno_version_1_2 ([[],[],[]],8,[True,True,True,True]))
+print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
+print (pertenece_a_cada_uno_version_1_2 ([[1,2,1],[5,8,4],[4,1,2]],3,[True]))
+print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False]))
+
+# Quedó mas cochina la cosa. La especificación me dice que |res| no debe (necesariamente) ser 
+# igual a |s| al finalizar la ejecución del programa. Esto me dice que no es necesario que "limpie"
+# a [res], solo que me preocupe por cumplir el otro "asegura". El otro asegura me dice que si "e"
+# pertenece a la lista s[i], en res[i] tiene que haber un True. Si |res| >= |s|, no pasa nada:
+# verificá el "pertenece" y según el resultado insertá delante de la posición "i" (en "s") el 
+# resultado del "pertenece". El problema está si |res| < |s|, ya que en "s" tengo posiciones 
+# que en "res" no (y eso me impide insertar el resultado del "pertenece" en algunas posiciones
+# de "s"). Para solucionar eso, como "res" puedo modificarlo como quiera (dentro de la ejecucuión)
+# primero expandí "res" (con la función interna "igualador_de_longitudes") y después hace todo 
+# lo que debes hacer para resolver el problema. 
+# De esta forma me aseguro de cumplir ambos requiere, sin eliminar los elementos que tenía "res". 
+# ¿No era mas fácil directamente ir utilizando .append para ir añadiendo a "res" los resultados de
+# los "pertenece"? No, ya que .append añade el elemento al final de "res" (no como head/primer
+# elemento); y eso me rompería el cumplimiento del asegura (porque "res" puede que ya venga con
+# elementos).
+
+# 5.2
+
+# Este es el mismo problema que el anterior, sólo que ahora me dicen que |res| = |s| sí o sí
+# al finalizar la ejecución. Esto me obliga a tener que "limpiar res" antes de empezar a añadir
+# los resultados. Teniendo en cuenta que en el 5.1 realicé dos implementaciones, sólo la primera
+# ("pertenece_a_cada_uno_version_1") serviría para resolver este problema.
 
