@@ -1,7 +1,7 @@
 # Práctica 7 - Funciones sobre Listas.
 
 print ("\nPráctica 7 - Funciones sobre Listas")
-print ("\nEjercicio 5\n")
+print ("\nEjercicio \n")
 
 
 #* Ejercicio 1.
@@ -151,7 +151,6 @@ def es_palíndromo (s:str) -> bool :
 # No me dicen si el parámetro "s" es de tipo In/Out/InOut. Por lo tanto no me preocupo
 # si lo modifico o no. De todas formas, no lo estoy modificando, sólo trabajo con su 
 # valor de entrada. 
-#? Consultar si en este caso estoy trabajando con "s" de tipo IN o no.
 
 # print (es_palíndromo ("somos o no somos")) 
 # print (es_palíndromo ("riber te fuiste a la b")) 
@@ -220,9 +219,9 @@ def fortaleza_contraseña (contraseña:str) -> str :
 # print (fortaleza_contraseña ("Cient1f1c0 XD m4x")) 
 # print (fortaleza_contraseña ("la típica 45")) 
 
-#? No entiendo por qué funciona bien con letras tildadas, ya que estas son caracteres especiales
-#? fuera del rango ASCII que le estoy dando. Se lo puedo añadir (como una función auxiliar más a
-#? verificar), pero funciona igual.
+# No entiendo por qué funciona bien con letras tildadas, ya que estas son caracteres especiales
+# fuera del rango ASCII que le estoy dando. Se lo puedo añadir (como una función auxiliar más a
+# verificar), pero funciona igual.
 
 # 1.8 
 def saldo_actual (s:list[tuple]) -> int :
@@ -440,18 +439,7 @@ def aprobado (notas:list[int]) -> int :
 #* Ejercicio 4.
 
 # 4.1
-# def lista_de_nombres () -> list[str] : 
-#     nombres:list[str] = [] 
-#     print ("Ingrese el nombre del alumno. Ingrese <listo> para finalizar: ")
-#     alumno:str = str(input()) 
-#     while (alumno != "listo") : 
-#         nombres = nombres.append(alumno) 
-#     return nombres 
 
-# lista_de_nombres () 
-
-#! No machea los Tipos. Igual creo que la hice para el traste. 
-#? Me dejo el código. Consultar cómo usar correctamente la función input.
 
 
 #* Ejercicio 5.
@@ -469,14 +457,18 @@ def pertenece_a_cada_uno_version_1 (s:list[list[int]] , e:int , res:list[bool]) 
             i += 1 
     print (res) 
 
-# print (pertenece_a_cada_uno_version_1 ([],5,[True,False]))
-# print (pertenece_a_cada_uno_version_1 ([[],[],[]],8,[True,True,True,True]))
-# print (pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
-# print (pertenece_a_cada_uno_version_1 ([[1,2,1],[5,8,4],[4,1,2]],3,[False]))
-# print (pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False])) 
+# pertenece_a_cada_uno_version_1 ([],5,[True,False])
+# pertenece_a_cada_uno_version_1 ([[],[],[]],8,[True,True,True,True])
+# pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[3,1,2]],3,[])
+# pertenece_a_cada_uno_version_1 ([[1,2,1],[5,8,4],[4,1,2]],3,[False])
+# pertenece_a_cada_uno_version_1 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False])
 
-#? Cada vez que lo ejecuto, hace el trabajo bien; pero también imprime "None" al finalizar la
-#? ejecución de cada llamado.
+# Antes, en los llamado a la función (para probarla), añadía un "print()" al llamado.
+# Cada vez que lo ejecutaba, hacía el trabajo bien; pero también imprimía "None" al finalizar la
+# ejecución de cada llamado. Esto es causado por el "print()" del llamado. Al la función no devolver 
+# nada, imprime lo que efectivamente devuelve: "None". 
+# Para solucionarlo, quité los "print()" de los llamados y listo. Dejé el "print(res)" dentro de la 
+# función, para poder verificar que los resultados sean correctos.
 
 
 # Otra implementación del mismo problema SIN "LIMPIAR" LA LISTA RES (de entrada):
@@ -501,11 +493,11 @@ def pertenece_a_cada_uno_version_1_2 (s:list[list[int]] , e:int , res:list[bool]
             i += 1 
      print (res)
 
-# print (pertenece_a_cada_uno_version_1_2 ([],5,[True,False]))
-# print (pertenece_a_cada_uno_version_1_2 ([[],[],[]],8,[True,True,True,True]))
-# print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[3,1,2]],3,[]))
-# print (pertenece_a_cada_uno_version_1_2 ([[1,2,1],[5,8,4],[4,1,2]],3,[True]))
-# print (pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False]))
+# pertenece_a_cada_uno_version_1_2 ([],5,[True,False])
+# pertenece_a_cada_uno_version_1_2 ([[],[],[]],8,[True,True,True,True])
+# pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[3,1,2]],3,[])
+# pertenece_a_cada_uno_version_1_2 ([[1,2,1],[5,8,4],[4,1,2]],3,[True])
+# pertenece_a_cada_uno_version_1_2 ([[1,2,3],[5,3,4],[5,1,2]],3,[False,True,False])
 
 # Quedó mas cochina la cosa. La especificación me dice que |res| no debe (necesariamente) ser 
 # igual a |s| al finalizar la ejecución del programa. Esto me dice que no es necesario que "limpie"
