@@ -1,5 +1,7 @@
 # Práctica 7 - Funciones sobre Listas.
 
+import random  # Librería para resolver algunos ejercicios.
+
 print ("\nPráctica 7 - Funciones sobre Listas")
 print ("\nEjercicio \n")
 
@@ -439,7 +441,69 @@ def aprobado (notas:list[int]) -> int :
 #* Ejercicio 4.
 
 # 4.1
+def lista_de_estudiantes () -> list[str] : 
+    alumnos:list[str] = [] 
+    nombre:str = input("Ingrese el nombre del estuante: \n")
+    while (nombre != "Listo") : 
+        alumnos.append (nombre) 
+        nombre = input ("Nombre del siguiente estudiante (ingrese Listo para finalizar): \n")
+    print ("Lista de alumnos: ")
+    return alumnos
 
+# print (lista_de_estudiantes ()) 
+
+# 4.2 
+def historial_de_monedero () -> list[(str,float)] : 
+    historial:list[(str,float)] = [] 
+    saldo_actual:float = 0 
+    operacion:str = input ("Ingrese el tipo de operación que desea realizar: ")
+    while (operacion != "X") :
+        if (operacion == "C") : 
+            monto:float = float (input ("Ingrese el monto a operar: "))
+            historial.append ((operacion,monto)) 
+            saldo_actual = saldo_actual + monto 
+        else : 
+            monto:float = float (input ("Ingrese el monto a operar: ")) 
+            historial.append ((operacion,monto))
+            saldo_actual = saldo_actual - monto 
+        operacion = input ("Para continuar operando, ingrese un nuevo tipo de operación. Para finalizar, ingrese X \n")
+    print ("Saldo actual: \n" , saldo_actual) 
+    print ("Historial de operaciones: ")
+    return historial
+
+# print (historial_de_monedero ()) 
+
+# 4.3 
+def juego_7_y_Medio () -> list[int] : 
+    carta_actual:float = random.choice ([1,2,3,4,5,6,7,10,11,12])
+    cartas_obtenidas:list[float] = [] 
+    suma_acumulada:float = 0 
+    print ("Primera carta: ",carta_actual)
+    cartas_obtenidas.append (carta_actual)
+    if (pertenece ([1,2,3,4,5,6,7],carta_actual)) : 
+        suma_acumulada = suma_acumulada + carta_actual 
+    else : 
+        suma_acumulada = suma_acumulada + (0.5)
+    operacion:str = input ("Para obtener una nueva carta, ingrese Carta; para plantarse, ingrese Fuera: ")
+    while ((operacion == "Carta") and (suma_acumulada < 7.5)) : 
+        carta_actual = random.choice ([1,2,3,4,5,6,7,10,11,12])
+        cartas_obtenidas.append (carta_actual)
+        if (pertenece ([1,2,3,4,5,6,7],carta_actual)) : 
+            suma_acumulada = suma_acumulada + carta_actual 
+        else : 
+            suma_acumulada = suma_acumulada + (0.5)
+        operacion= input ("Para obtener una nueva carta, ingrese Carta; para plantarse, ingrese Fuera: ")
+    if (operacion == "Fuera") : 
+        print ("Suma acumulada: ",suma_acumulada) 
+        print ("Cartas obtenidas: ") 
+        return cartas_obtenidas 
+    else : 
+        print ("¡Perdiste! \n") 
+        print ("Suma acumulada: ",suma_acumulada)
+        print ("Cartas obtenidas: ")
+        return cartas_obtenidas 
+
+# print (juego_7_y_Medio ()) 
 
 
 #* Ejercicio 5.
@@ -565,4 +629,7 @@ def filas_ordenadas (s:list[list[int]] , res:list[bool]) :
 # print (filas_ordenadas ([[1,2],[4,9],[10,15],[1,5]],[]))
 # print (filas_ordenadas ([[5,1],[4,1],[10,0],[1,-5]],[True])) 
 # print (filas_ordenadas ([[1,2],[8,-2],[10,-15],[1,5]],[False,False,False,False])) 
+
+# 5.5 
+# (Mamadera... no me sale.)
 
