@@ -1,11 +1,14 @@
 # Práctica 8 - Archivos, Pilas, Colas y Diccionarios.
 
 import random 
-from queue import LifoQueue as Pila      # Librería para trabar con listas LIFO bajo la 
+from queue import LifoQueue as Pila      # Librería para trabajar con listas LIFO bajo la 
                                          # denominación 'Pila'.
+from queue import Queue as Cola          # Librería para trabajar con listas FIFO bajo la
+                                         # denominación 'Cola'.
+
 
 print ('Práctica 8')
-print ('Ejercicio ')
+print ('Ejercicio 12')
 
 #* Ejercicio 1.
 
@@ -371,7 +374,7 @@ def generar_nros_al_azar (cantidad:int , desde:int , hasta:int) -> Pila[int] :
         numero:int = random.randint(desde,hasta) 
         p.put(numero) 
         i += 1
-    # print (p.queue)  --> para verificar quién es la lista 'p'.
+    # print (p.queue)  --> para verificar quién es la pila 'p'.
     return p 
 
 # print (generar_nros_al_azar (3,0,8)) 
@@ -422,4 +425,136 @@ def buscar_el_maximo (p:Pila[int]) -> int :
 # print (buscar_el_maximo(p)) 
 
 
-#* Ejercicio 
+#* Ejercicio 12.
+def divisor_de_expresion (s:str) -> list[str] :
+    tokens:list[str] = [] 
+    ascensor:str = ''
+    for i in range (0,len(s),1) :
+        if (s[i] != ' ') :
+            ascensor = ascensor + s[i]
+        else :
+            tokens.append(ascensor)
+            ascensor = ''
+    if (s[len(s)-1] != ' ') :
+        tokens.append(ascensor) 
+    else :
+        None 
+    return tokens 
+
+# print (divisor_de_expresion ("3 4 + 5 * 2 -"))
+# print (divisor_de_expresion ('10 5 /'))
+
+# OBS -> Tuve que añadir ese último "if" para la última posición de [s] porque
+#        sino no metía en [tokens] el último elemento de [s].   
+
+def evaluar_expresion (s:str) -> float :
+    p:Pila[str] = Pila() 
+    tokens:list[str] = divisor_de_expresion(s)
+    for i in range (0,len(tokens),1) : 
+        if ((tokens[i] != '+') and (tokens[i] != '-') and (tokens[i] != '*') and (tokens[i] != '/')) :
+            p.put(tokens[i])
+        else: 
+            if (tokens[i] == '+') : 
+                operando1:float = float(p.get()) 
+                operando2:float = float(p.get()) 
+                resultado:float = operando2 + operando1 
+                p.put(resultado) 
+            elif (tokens[i] == '-') : 
+                operando1:float = float(p.get()) 
+                operando2:float = float(p.get()) 
+                resultado:float = operando2 - operando1 
+                p.put(resultado)
+            elif (tokens[i] == '*') : 
+                operando1:float = float(p.get()) 
+                operando2:float = float(p.get()) 
+                resultado:float = operando2 * operando1 
+                p.put(resultado)
+            elif (tokens[i] == '/') : 
+                operando1:float = float(p.get()) 
+                operando2:float = float(p.get()) 
+                resultado:float = operando2 / operando1 
+                p.put(resultado)
+    resultado_final:float = p.get() 
+    return resultado_final 
+
+# print (evaluar_expresion ("3 4 + 5 * 2 -"))
+# print (evaluar_expresion ("10 5 /"))
+
+
+#* Ejercicio 13.
+def generar_nros_al_azar_2 (cantidad:int , desde:int , hasta:int) -> Cola[int] :
+    c:Cola[int] = Cola() 
+    i:int = 0 
+    while (i < cantidad) : 
+        numero:int = random.randint (desde,hasta) 
+        c.put(numero) 
+        i = i + 1 
+    # print(c.queue)  --> para verificar quién es la cola 'c'.
+    return c
+
+# print (generar_nros_al_azar_2 (5,0,10))
+# print (generar_nros_al_azar_2 (0,7,1048))
+# print (generar_nros_al_azar_2 (2,-5,0))
+# print (generar_nros_al_azar_2 (10,-25,10)) 
+
+
+#* Ejercicio 14. 
+def cantidad_elementos_2 (c:Cola) -> int : 
+    elementos:list = [] 
+    while (c.empty() == False) :
+        elem = c.get() 
+        elementos.append(elem) 
+    res = len(elementos) 
+
+    for i in range (0,len(elementos),1) :
+        c.put(elementos[i]) 
+    
+    # print (c.queue)  --> para verificar que volví a construir bien la Cola (dato de tipo IN).
+    return res 
+
+# c_vacia = Cola() 
+# c_con_cosas = Cola() 
+# c_con_cosas.put(_) 
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_) 
+# print (cantidad_elementos_2 (c_vacia))
+# print (cantidad_elementos_2 (c_con_cosas)) 
+
+# La diferencia principal con la "cantidad_elementos" hecha en el Ejercicio 9 es la reconstrucción
+# del dato de entrada (IN). En la función "cantidad_elementos" es una PILA, por lo que voy a ir 
+# reconstruyendola insertando los elementos de [elementos] desde el último hacia el primero.
+# En este caso, al ser una COLA, para reconstruir debo ir insertando los elementos de [elementos]
+# desde el primero hacia el último.
+
+
+#* Ejercicio 15. 
+def buscar_el_maximo_2 (c:Cola[int]) -> int :
+    elementos:list[int] = [] 
+    maximo:int = c.get() 
+    elementos.append(maximo)
+
+    while (c.empty() == False) : 
+        candidato = c.get()
+        elementos.append(candidato) 
+        if (maximo < candidato) : 
+            maximo = candidato 
+        else : 
+            None 
+    
+    for i in range (0,len(elementos),1) :
+        c.put(elementos[i]) 
+
+    print (c.queue) 
+    return maximo 
+
+c_con_cosas = Cola() 
+c_con_cosas.put(-8) 
+c_con_cosas.put(-20)
+c_con_cosas.put(0)
+c_con_cosas.put(-854)
+c_con_cosas.put(-5)
+c_con_cosas.put(-45) 
+print (buscar_el_maximo_2 (c_con_cosas))
