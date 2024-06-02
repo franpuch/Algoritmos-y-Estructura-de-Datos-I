@@ -8,7 +8,7 @@ from queue import Queue as Cola          # Librería para trabajar con listas FI
 
 
 print ('Práctica 8')
-print ('Ejercicio 12')
+print ('Ejercicio ')
 
 #* Ejercicio 1.
 
@@ -550,11 +550,18 @@ def buscar_el_maximo_2 (c:Cola[int]) -> int :
     print (c.queue) 
     return maximo 
 
-c_con_cosas = Cola() 
-c_con_cosas.put(-8) 
-c_con_cosas.put(-20)
-c_con_cosas.put(0)
-c_con_cosas.put(-854)
-c_con_cosas.put(-5)
-c_con_cosas.put(-45) 
-print (buscar_el_maximo_2 (c_con_cosas))
+# c_con_cosas = Cola() 
+# c_con_cosas.put(_) 
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_)
+# c_con_cosas.put(_) 
+# print (buscar_el_maximo_2 (c_con_cosas))
+
+# Si comparo esta implementación con la hecha en el Ejercicio 10, la parte que busca el máximo
+# es lo mismo; cambia la parte en la que reconstruyo el dato de entrada (como en el ejercicio 
+# anterior). 
+
+
+#* Ejercicio .
