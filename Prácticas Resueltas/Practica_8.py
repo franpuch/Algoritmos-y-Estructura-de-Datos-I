@@ -109,6 +109,8 @@ def cantidad_apariciones (nombre_archivo:str , palabra:str) -> int :
 #! raro. Y cuando compara, no machea correctamente la vocal tildada con el 
 #! caracter trambólico que mandó como vocal tildada (en el paso de definición
 #! de <palabras_de_linea>).
+#? Misteriosamente, en las compus del los Labos de la Facu sí funciona bien.
+#? No sé qué onda.
 
 # Otra forma de resolverlo, considerando PALABRA = conjunto de caracteres (a secas).
 def cantidad_apariciones_2 (nombre_archivo:str , palabra: str) : 
@@ -425,6 +427,40 @@ def buscar_el_maximo (p:Pila[int]) -> int :
 # print (buscar_el_maximo(p)) 
 
 
+#* Ejercicio 11.
+def esta_bien_balanceada (s:str) -> bool :
+    p:Pila[str] = Pila() 
+    i:int = 0 
+    while (i < len(s)) :
+        if (s[i] == '(') : 
+            p.put(s[i]) 
+            i += 1
+        elif (s[i] == ')') :
+            if (not (p.empty())) : 
+                p.get()
+                i += 1 
+            else : 
+                return False 
+        else : 
+            i += 1 
+    if (p.empty()) : 
+        return True 
+    else : 
+        return False 
+
+# print (esta_bien_balanceada ('1 + ( 2 x 3 - ( 2 0 / 5 ) )')) 
+# print (esta_bien_balanceada ('10 * ( 1 + ( 2 * ( -1)))'))
+# print (esta_bien_balanceada ('1 + ) 2 x 3 ( ( )'))  
+# print (esta_bien_balanceada (' 2 ) + 8 ) + (4 * 3) - ( (8 + 8) ())))')) 
+
+# El algoritmo consiste en: andá recorriendo el string; cada vez que te encontres un 
+# '(', metelo en la pila; cada vez que te encontres un ')', sacá un elemento de la pila;
+# si está bien balanceada, por cada vez que cierro con ')', tuve que haber abierto antes '('.
+# Por eso, al final, si está bien balanceada, la pila debe estar vacía (ya que por cada vez
+# que cerré un paréntesis, saqué de la pila su correspondiente abertura). Si no, está
+# desbalanceada, ya que estoy abriendo de más (la pila le quedaron elementos) o cerrando
+# de más (llegué a un ')' y la pila no tiene elemento para darme).
+
 #* Ejercicio 12.
 def divisor_de_expresion (s:str) -> list[str] :
     tokens:list[str] = [] 
@@ -562,6 +598,134 @@ def buscar_el_maximo_2 (c:Cola[int]) -> int :
 # Si comparo esta implementación con la hecha en el Ejercicio 10, la parte que busca el máximo
 # es lo mismo; cambia la parte en la que reconstruyo el dato de entrada (como en el ejercicio 
 # anterior). 
+
+
+#* Ejercicio 16.
+def pertenece_ints (e:int , s:list[int]) : 
+    res:bool = False
+    i:int = 0 
+    while (i < len(s)) : 
+        if (s[i] == e) :
+            res = True 
+            i += 1 
+        else : 
+            i += 1 
+    return res 
+
+def armar_secuencia_de_bingo () -> Cola[int] : 
+    numeros_0_a_99:list[int] = [] 
+    i:int = 0 
+    while (i <= 99) :
+        numeros_0_a_99.append(i) 
+        i += 1 
+    
+    random.shuffle(numeros_0_a_99)   # Tomo la lista y la desordeno al azar.
+
+    secuencia:Cola[int] = Cola() 
+    for i in range (0,len(numeros_0_a_99),1) : 
+        secuencia.put(numeros_0_a_99[i]) 
+    return secuencia 
+
+# OBS --> 'random.shuffle(lista)' recibe una lista y permuta sus elementos al azar.
+
+def jugar_carton_de_bingo (carton:list[int] , bolillero:Cola[int]) -> int : 
+    numeros_carton_tachados:int = len(carton) 
+    jugadas:int = 0 
+    reconstructor:list[int] = [] 
+
+    while (numeros_carton_tachados > 0) : 
+        bolilla:int = bolillero.get()
+        reconstructor.append(bolilla) 
+        jugadas = jugadas + 1
+        if (pertenece_ints (bolilla,carton)) :
+            numeros_carton_tachados = numeros_carton_tachados - 1  
+    
+    while (not (bolillero.empty())) : 
+        bolilla:int = bolillero.get() 
+        reconstructor.append(bolilla)
+    
+    for i in range (0,len(reconstructor),1) :
+        bolillero.put(reconstructor[i]) 
+    
+    print(bolillero.queue)
+    return jugadas 
+
+# print (jugar_carton_de_bingo ([0,1,2,3,4,5,6,7,8,9,10,11],armar_secuencia_de_bingo ())) 
+
+
+#* Ejercicio 17. 
+def n_pacientes_urgentes (c:Cola[(int,str,str)]) -> int : 
+    reconstuctor:list[(int,str,str)] = [] 
+    res:int = 0
+
+    while (not (c.empty())) :
+        paciente_actual:tuple[int,str,str] = c.get() 
+        reconstuctor.append(paciente_actual) 
+        if (pertenece_ints (paciente_actual[0],[1,2,3])) : 
+            res += 1 
+    
+    for i in range (0,len(reconstuctor),1) : 
+        c.put(reconstuctor[i]) 
+ 
+    return res 
+
+# pacientes:Cola[(int,str,str)] = Cola() 
+# pacientes.put((5,'Juan','Guardia'))
+# pacientes.put((6,'Maria','Guardia'))
+# pacientes.put((2,'Pedro','Pedia'))
+# pacientes.put((8,'Fran','Pedia'))
+# pacientes.put((3,'Carlos','Trauma'))
+# pacientes.put((1,'Fiore','Cardio'))
+# pacientes.put((4,'Fede','Gastro'))
+# pacientes.put((1,'Walter','Trauma')) 
+# print (n_pacientes_urgentes (pacientes))
+
+
+#* Ejercicio 18.
+def atencion_a_clientes (c:Cola[(str,int,bool,bool)]) -> Cola[(str,int,bool,bool)] :
+    reconstructor: list[(str,int,bool,bool)] = []
+    prioritarios_grupo_selecto:list[(str,int,bool,bool)] = []
+    prioritarios_cuenta_preferencial: list[(str,int,bool,bool)] = []
+    clientes_comunes:list[(str,int,bool,bool)] = [] 
+    res:Cola[(str,int,bool,bool)] = Cola() 
+
+    while (not (c.empty())) : 
+        cliente_actual:tuple[str,int,bool,bool] = c.get()
+        reconstructor.append(cliente_actual) 
+        if (cliente_actual[3] == True) :
+            prioritarios_grupo_selecto.append(cliente_actual) 
+        elif (cliente_actual[2] == True) :
+            prioritarios_cuenta_preferencial.append(cliente_actual) 
+        else : 
+            clientes_comunes.append(cliente_actual) 
+
+    for i in range (0,len(prioritarios_grupo_selecto),1) : 
+        res.put(prioritarios_grupo_selecto[i]) 
+
+    for i in range (0,len(prioritarios_cuenta_preferencial),1) : 
+        res.put(prioritarios_cuenta_preferencial[i]) 
+
+    for i in range (0,len(clientes_comunes),1) : 
+        res.put(clientes_comunes[i]) 
+    
+    for i in range (0,len(reconstructor),1) :
+        c.put(reconstructor[i])
+    
+    return res 
+
+# llegada_banco:Cola[(str,int,bool,bool)] = Cola()
+# llegada_banco.put(('Juan',45,False,False)) 
+# llegada_banco.put(('Maria',43,True,False))
+# llegada_banco.put(('Pepe',25,False,True))
+# llegada_banco.put(('Carla',36,True,True)) 
+# llegada_banco.put(('July',25,True,False))
+# llegada_banco.put(('Sofi',20,False,True))
+# llegada_banco.put(('Juan',40,False,False))
+# llegada_banco.put(('Vale',36,False,False))
+# llegada_banco.put(('Fede',47,False,True))
+# llegada_banco.put(('Lucas',39,True,True))
+# llegada_banco.put(('Rodri',35,False,True)) 
+# print (atencion_a_clientes (llegada_banco)) 
 
 
 #* Ejercicio .
