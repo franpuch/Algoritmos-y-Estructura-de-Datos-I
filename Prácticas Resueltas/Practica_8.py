@@ -1,5 +1,6 @@
 # Práctica 8 - Archivos, Pilas, Colas y Diccionarios.
 
+import typing
 import random 
 from queue import LifoQueue as Pila      # Librería para trabajar con listas LIFO bajo la 
                                          # denominación 'Pila'.
@@ -14,7 +15,7 @@ print ('Ejercicio ')
 
 # 1.1 
 def contar_lineas (nombre_archivo:str) -> int : 
-    archivo = open (nombre_archivo,'r') 
+    archivo:typing.IO = open (nombre_archivo,'r') 
     lista_lineas:list[str] = archivo.readlines() 
     archivo.close() 
     return len(lista_lineas) 
@@ -44,7 +45,7 @@ def palabra_contenida (palabra:str , linea:str) -> bool :
 #! Si le pasas (como parámetros) 'avion' y 'superavionF16' devuelve True.
 
 def existe_palabra (palabra:str , nombre_archivo:str) -> bool :
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     lista_lineas:list[str] = archivo.readlines() 
     archivo.close() 
     res:bool = False 
@@ -86,7 +87,7 @@ def linea_a_lista_de_string (linea:str) -> list[str] :
 #!        string vacío). No importa, a fines prácticos (es una función auxiliar) me sirve igual.
 
 def cantidad_apariciones (nombre_archivo:str , palabra:str) -> int :
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     lista_lineas:list[str] = archivo.readlines() 
     archivo.close() 
     apariciones:int = 0 
@@ -114,9 +115,10 @@ def cantidad_apariciones (nombre_archivo:str , palabra:str) -> int :
 
 # Otra forma de resolverlo, considerando PALABRA = conjunto de caracteres (a secas).
 def cantidad_apariciones_2 (nombre_archivo:str , palabra: str) : 
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     apariciones:int = 0 
     lista_lineas:list[str] = archivo.readlines() 
+    archivo.close()
     for i in range (0,len(lista_lineas),1) : 
         if (len(lista_lineas[i]) < len(palabra)) : 
             None 
@@ -156,7 +158,7 @@ def es_comentario (linea:str) -> bool :
 # print (es_comentario ('esto tampoco es #un comentario')) 
 
 def clonar_sin_comentarios (nombre_archivo:str) -> None :
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     lista_lineas:list[str] = archivo.readlines() 
     archivo.close()
     lista_lineas_no_comentarios:list[str] = [] 
@@ -172,8 +174,8 @@ def clonar_sin_comentarios (nombre_archivo:str) -> None :
 # clonar_sin_comentarios ('Pruebas - Practica 8.txt') 
 
 def clonar_sin_comentarios_2 (nombre_archivo:str) -> str : 
-    archivo = open(nombre_archivo,'r')
-    archivo2 = open('Copia Sin Comentarios.txt','w')
+    archivo:typing.IO = open(nombre_archivo,'r')
+    archivo2:typing.IO = open('Copia Sin Comentarios.txt','w')
     lista_de_lineas = archivo.readlines() 
     for i in range (0,len(lista_de_lineas),1) : 
         if (not (es_comentario (lista_de_lineas[i]))) : 
@@ -195,11 +197,11 @@ def reverso_lista_Strings (s:list[str]) -> list[str] :
     return reverso 
 
 def invertir_lineas (nombre_archivo:str) -> None :
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     lista_lineas:list[str] = archivo.readlines() 
     archivo.close() 
     reverso_lista_lineas:list[str] = reverso_lista_Strings (lista_lineas) 
-    archivo2 = open('reverso.txt','w') 
+    archivo2:typing.IO = open('reverso.txt','w') 
     archivo2.writelines(reverso_lista_lineas) 
     archivo2.close() 
 
@@ -207,11 +209,11 @@ def invertir_lineas (nombre_archivo:str) -> None :
 
 #* Ejercicio 4. 
 def agregar_frase_al_final (nombre_archivo:str , frase:str) -> None : 
-    archivo = open(nombre_archivo,'r')
+    archivo:typing.IO = open(nombre_archivo,'r')
     lineas:list[str] = archivo.readlines() 
     archivo.close()
     lineas.append(frase) 
-    archivo2 = open(nombre_archivo,'w') 
+    archivo2:typing.IO = open(nombre_archivo,'w') 
     archivo2.writelines(lineas) 
     archivo2.close() 
 
@@ -219,7 +221,7 @@ def agregar_frase_al_final (nombre_archivo:str , frase:str) -> None :
 
 #* Ejercicio 5. 
 def agregar_frase_al_principio (nombre_archivo:str , frase:str) -> None :
-    archivo = open(nombre_archivo,'r') 
+    archivo:typing.IO = open(nombre_archivo,'r') 
     lineas:list[str] = archivo.readlines() 
     archivo.close()
     lineas2:list[str] = [frase] 
@@ -242,7 +244,7 @@ def es_caracter_valido (c:str) -> bool :
         return False 
     
 def listar_palabras_de_archvio (nombre_archivo:str) -> list[str] : 
-    archivo = open(nombre_archivo,'b') 
+    archivo:typing.IO = open(nombre_archivo,'b') 
     lista_bytes = archivo.read() 
     archivo.close()
     res:list[str] = []
@@ -318,7 +320,7 @@ def notas_de_estudiante (lineas:list[str] , lu:str) -> list[float] :
         return notas
 
 def promedio_estudiante (nombre_archivo:str , lu:str) -> float : 
-    archivo = open(nombre_archivo,'r')
+    archivo:typing.IO = open(nombre_archivo,'r')
     lineas:list[str] = archivo.readlines() 
     archivo.close()  
     suma_notas:float = 0 
@@ -331,7 +333,7 @@ def promedio_estudiante (nombre_archivo:str , lu:str) -> float :
     return promedio
 
 def lista_estudiantes (nombre_archivo:str) -> list[str] : 
-    archivo = open(nombre_archivo,'r')
+    archivo:typing.IO = open(nombre_archivo,'r')
     lineas:list[str] = archivo.readlines() 
     archivo.close()
     lu_estudiantes:list[str] = [] 
@@ -345,7 +347,7 @@ def lista_estudiantes (nombre_archivo:str) -> list[str] :
     return lu_estudiantes
 
 def calcular_promedio_por_estudiante (nombre_archivo_notas:str , nombre_archivo_promedios:str) -> None :
-    archivo1 = open (nombre_archivo_notas,'r')
+    archivo1:typing.IO = open (nombre_archivo_notas,'r')
     lineas_notas:list[str] = archivo1.readlines() 
     archivo1.close() 
 
@@ -358,7 +360,7 @@ def calcular_promedio_por_estudiante (nombre_archivo_notas:str , nombre_archivo_
     for i in range (0,len(promedios),1) : 
         lista_escritura.append (str(str(lista_de_estudiantes[i]))+','+(str(promedios[i]))+'\n') 
     
-    archivo2 = open (nombre_archivo_promedios,'w')
+    archivo2:typing.IO = open (nombre_archivo_promedios,'w')
     archivo2.writelines(lista_escritura)
     archivo2.close()
 
