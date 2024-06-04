@@ -730,4 +730,70 @@ def atencion_a_clientes (c:Cola[(str,int,bool,bool)]) -> Cola[(str,int,bool,bool
 # print (atencion_a_clientes (llegada_banco)) 
 
 
-#* Ejercicio .
+#* Ejercicio 19.
+def rebanador_de_palabras (s:str) -> list[str] : 
+    palabras:list[str] = [] 
+
+    palabra_actual:str = ''
+    for i in range (0,len(s),1) : 
+        if ((s[i] != ' ') and (s[i] != ',') and (s[i] != '.') and (s[i] != '\n') and (i != (len(s) - 1))) : 
+            palabra_actual = palabra_actual + s[i] 
+        else : 
+            if (len(palabra_actual) > 0) :
+                if ((s[i] != '.') and (s[i] != ',') and (s[i] != '\n') and (s[i] != ' ')) : 
+                    palabra_actual = palabra_actual + s[i]
+                    palabras.append (palabra_actual) 
+                    palabra_actual = ''
+                else : 
+                    palabras.append (palabra_actual) 
+                    palabra_actual = ''
+    
+    return palabras 
+
+# print (rebanador_de_palabras ('Hola amigos de Youtube. Me llamo Juan'))
+# print (rebanador_de_palabras ('Juan')) 
+# print (rebanador_de_palabras ('')) 
+
+# Esta función ya la hice antes, sólo que ahora la perfeccioné y funciona
+# mucho mejor que la anterior.
+
+def palabras_de_archivo (nombre_archivo:str) -> list[str] : 
+    archivo:typing.IO = open(nombre_archivo,'r') 
+    lineas:list[str] = archivo.readlines() 
+    archivo.close() 
+
+    palabras:list[str] = [] 
+    for i in range (0,len(lineas),1) : 
+        palabras_aux:list[str] = rebanador_de_palabras (lineas[i]) 
+        for j in range (0,len(palabras_aux),1) : 
+            palabras.append(palabras_aux[j]) 
+    
+    return palabras 
+
+# print (palabras_de_archivo ('_')) 
+
+def agrupar_por_longitud (nombre_archivo:str) -> dict : 
+    res:dict[int,int] = dict() 
+
+    palabras:list[str] = palabras_de_archivo (nombre_archivo) 
+    for i in range (0,len(palabras),1) : 
+        longitud:int = len(palabras[i]) 
+        if longitud in res.keys() :
+                res[longitud] += 1 
+        else : 
+                res[longitud] = 1 
+    
+    return res 
+
+# print (agrupar_por_longitud ('_')) 
+
+
+#* Ejercicio 20. 
+def calcular_promedio_por_estudiante_2 (nombre_archivo_notas:str) -> dict[str,float] :
+    estudiantes:list[str] = lista_estudiantes (nombre_archivo_notas) 
+    promedios:dict[str,float] = {} 
+    for i in range (0,len(estudiantes),1) : 
+        promedios[estudiantes[i]] = promedio_estudiante (nombre_archivo_notas,estudiantes[i]) 
+    return promedios 
+
+# print (calcular_promedio_por_estudiante_2 ('Ejercicio 7 - Practica 8.csv')) 
