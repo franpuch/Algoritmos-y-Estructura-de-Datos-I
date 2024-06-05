@@ -797,3 +797,176 @@ def calcular_promedio_por_estudiante_2 (nombre_archivo_notas:str) -> dict[str,fl
     return promedios 
 
 # print (calcular_promedio_por_estudiante_2 ('Ejercicio 7 - Practica 8.csv')) 
+
+
+#* Ejercicio 21.
+
+# Para este ejercicio, voy a utilizar la función 'palabras_de_archivo' definida 
+# en el ítem anterior.
+
+def cantidad_de_apariciones_por_palabra (nombre_archivo:str) -> dict[str,int] : 
+    apariciones_palabras:dict[str,int] = dict() 
+    palabras:list[str] = palabras_de_archivo (nombre_archivo) 
+    for i in range (0,len(palabras),1) :
+        if (palabras[i] in apariciones_palabras.keys()) :
+            apariciones_palabras[palabras[i]] += 1
+        else :
+            apariciones_palabras[palabras[i]] = 1 
+    return apariciones_palabras
+
+# print (cantidad_de_apariciones_por_palabra ('Pruebas - Practica 8.txt')) 
+
+# Toma un archivo y crea un diccionario donde las claves son todas las palabras, y los
+# valores (de cada clave) es la cantidad de apariciones de esa palabra en el archivo.
+
+def eliminar_repetidos_strings (s:list[str]) -> list[str] :
+    lista_sin_repetidos:list[str] = [] 
+
+    for i in range (0,len(s),1) :
+        if (not (s[i] in lista_sin_repetidos)) : 
+            lista_sin_repetidos.append(s[i]) 
+    
+    return lista_sin_repetidos
+
+# print (eliminar_repetidos_strings ([]))
+# print (eliminar_repetidos_strings (['peru','argentina','brasil','francia']))
+# print (eliminar_repetidos_strings (['peru','argentina','brasil','argentina','francia','francia','peru','brasil','brasil']))
+
+# Toma una lista de strings y devuelve otra con los elementos de la anterior sin, repetidos.
+
+def la_palabra_mas_frecuente (nombre_archivo:str) -> str : 
+    apariciones_por_palabra:dict[str,int] = cantidad_de_apariciones_por_palabra (nombre_archivo) 
+    palabras:list[str] = eliminar_repetidos_strings (palabras_de_archivo (nombre_archivo)) 
+
+    maxima_aparicion:str = palabras[0]
+    for i in range (0,len(palabras),1) :
+        if (apariciones_por_palabra[maxima_aparicion] < apariciones_por_palabra[palabras[i]]) : 
+            maxima_aparicion = palabras[i] 
+    
+    return maxima_aparicion 
+
+# print (la_palabra_mas_frecuente ('Pruebas - Practica 8.txt'))       # Rta = 'de'
+
+# Funcionamiento General del Algoritmo: inicia guardando en una varibale ('maxima_aparicion')
+# la primer palabra; compara el valor de la clave guardada (en la variable) con los valores de
+# cada una de las claves (contenidas en [palabras]); si se encuentra una clave con valor mas
+# grande, re-define 'maxima_aparicion' con esa nueva clave.
+# OBS --> aparte debo construirme una lista con todas las claves (para poder ir consultando
+#           al diccionario su valor), ya que 'diccionario.keys()' no puedo iterarlo de la forma 
+#           que necesito.
+
+
+#* Ejercicio 22. 
+historiales:dict[str,Pila[str]] = dict() 
+
+#! OBS IMPORTANTE --> La especificación de ambos programas no es clara respecto a si
+#!                    son funciones o procedimientos. No aclaran bien si ambas deben 
+#!                    dar un resultado o simplemente modificar el contenido de 
+#!                    'historiales'. Los tomo como PROCEDIMIENTOS par mis resoluciones. 
+
+def visitar_sitio (historiales:dict[str,Pila[str]] , usuario:str , sitio:str) : 
+    if (not (usuario in historiales.keys())) : 
+        sitios_web:Pila[int] = Pila()
+        sitios_web.put(sitio) 
+        historiales[usuario] = sitios_web 
+    else : 
+        sitios_visitados:Pila[str] = historiales[usuario] 
+        sitios_visitados.put(sitio) 
+        historiales[usuario] = sitios_visitados 
+
+# visitar_sitio(historiales, "Usuario1", "google.com")
+# visitar_sitio(historiales, "Usuario1", "facebook.com")
+# visitar_sitio(historiales, "Usuario2", "twitter.com")
+# visitar_sitio(historiales, "Usuario1", "instagram.com") 
+
+#! Función auxiliar para Testear la anterior. La dejo comentada porque no quiero que se defina
+#! en cada ejecucuión, sólo cuando quiero ver y testear.
+#! def verificacion (historiales:dict[str,Pila[str]] , usuario:str) -> Pila[str] : 
+#     historial:Pila[str] = historiales[usuario] 
+#     print (historial.queue) 
+
+#! verificacion (historiales,"Usuario1")
+#! verificacion (historiales,"Usuario1")
+
+def navegar_atras (historiales:dict[str,Pila[str]] , usuario:str) :
+    historial:Pila[str] = historiales[usuario]
+
+    sitio_actual:str = historial.get() 
+    sitio_anterior:str = historial.get() 
+    
+    historial.put(sitio_anterior) 
+    historial.put(sitio_actual) 
+    historial.put(sitio_anterior) 
+
+    historiales[usuario] = historial 
+
+# navegar_atras (historiales, "Usuario1")
+
+#! verificacion (historiales,"Usuario1") 
+
+
+#* Ejercicio 23. 
+inventario:dict[str,dict[str,float]] = {} 
+
+def agregar_producto (inventario:dict[str,dict[str,float]] , nombre:str , precio:float , cantidad:float) : 
+    datos_de_producto:dict[str,float] = dict() 
+
+    datos_de_producto['Precio'] = precio 
+    datos_de_producto['Cantidad'] = cantidad 
+
+    inventario[nombre] = datos_de_producto 
+
+#! Este programa es un PROCEDIMIENTO.
+# agregar_producto(inventario, "Camisa", 20.0, 50)
+# agregar_producto(inventario, "Pantalón", 30.0, 30)
+# print ('Inventario: ',inventario)
+
+
+def actualizar_stock (inventario:dict[str,dict[str,float]] , nombre:str , cantidad:float) : 
+    datos_de_producto:dict[str,float] = inventario[nombre] 
+    datos_de_producto['Cantidad'] = cantidad 
+    inventario[nombre] = datos_de_producto 
+
+#! Este programa es un procedimiento.
+# actualizar_stock (inventario, "Camisa", 10)
+# print ('Stock actualizado: ',inventario) 
+
+
+def actualizar_precio (inventario:dict[str,dict[str,float]] , nombre:str , precio:float) :
+    datos_de_producto:dict[str,float] = inventario[nombre] 
+    datos_de_producto['Precio'] = precio 
+    inventario[nombre] = datos_de_producto 
+
+#! Este programa es un procedimiento 
+# actualizar_precio (inventario, "Pantalón", 15) 
+# print ('Precio actualizado: ',inventario) 
+
+
+def calcular_valor_inventario (inventario:dict[str,dict[str,float]]) -> float : 
+    valor_inventario:float = 0 
+    lista_inventario:list[(str,dict[str,float])] = list(inventario.items()) 
+
+    lista_de_datos:list[dict[str,float]] = []
+    for i in range (0,len(lista_inventario),1) : 
+        lista_de_datos.append(lista_inventario[i][1]) 
+
+    for i in range (0,len(lista_de_datos),1) :
+        valor_producto:float = lista_de_datos[i]['Precio'] * lista_de_datos[i]['Cantidad']
+        valor_inventario += valor_producto 
+    
+    return valor_inventario 
+
+# Funcionamiento General del Algoritmo: crea una lista con los pares (clave:valor) 
+# del diccionario 'inventario' (los elementos de esta lista son tuplas de forma
+# (nombre de producto , diccionario con los datos)); arma otra lista donde metas todas
+# las segundas componentes de cada tupla de la lista anterior (los elementos de esta
+# nueva lista son todos los diccionarios); ahora, para cada elementos de esta última 
+# lista (para cada diccionario), hace la cuenta < 'Valor de la Clave 'Precio'' * 
+# 'Valor de la Clave 'Cantidad''>; cada una de esas cuentas guardalas en una variable 
+# (temporal, dentro del ciclo) y andá sumando esa variable a la variable 'valor_inventario'
+# (definida al principio de todo). Al final, devolvé la variable 'valor_inventario'.
+
+# print ('Valor Total del Inventario: ',calcular_valor_inventario (inventario)) 
+
+
+#* Fin de Práctica 8.
