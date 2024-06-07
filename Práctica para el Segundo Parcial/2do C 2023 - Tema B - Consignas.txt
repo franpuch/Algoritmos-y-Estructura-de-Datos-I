@@ -24,7 +24,7 @@ problema ind_nesima_aparicion (in s: seq <Z> , in n:Z , in elem:Z) : Z {
     asegura: { Si el elemento aparece menos de 'n' veces en la secuencia, res = -1 }
     asegura: { Si el elemento aparece al menos 'n' veces en la recuencia, s[res] = elem }
     asegura: { Si el elemento aparece al menos 'n' veces en la secuencia, 'elem' aparece 
-               n-1 veces eb s entre las posiciones 0 y res-1 }
+               n-1 veces en s entre las posiciones 0 y res-1 }
 }
 
 Por ejemplo, dadas
